@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://ifasbfnl70il"]
+[gd_scene load_steps=11 format=3 uid="uid://dxalhm18pgrig"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
-[ext_resource type="Texture2D" uid="uid://b065kjmdbtwud" path="res://Src/Assets/Player/slime_sprite_sheet.png" id="2_41mqq"]
+[ext_resource type="Texture2D" path="res://Src/Assets/Player/slime_sprite_sheet.png" id="2_41mqq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aeaqp"]
 atlas = ExtResource("2_41mqq")
@@ -69,7 +69,8 @@ sprite = NodePath("../AnimatedSprite2D")
 position = Vector2(3.8147e-06, 1)
 scale = Vector2(0.2255, 0.2255)
 sprite_frames = SubResource("SpriteFrames_xawlo")
-frame_progress = 0.4876
+frame = 4
+frame_progress = 0.58142
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ilbhh")
