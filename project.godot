@@ -18,6 +18,14 @@ config/icon="res://icon.svg"
 
 enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://Src/Assets/": "red",
+"res://Src/Scenes/": "orange",
+"res://Src/Scripts/": "blue"
+}
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
