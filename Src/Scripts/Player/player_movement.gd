@@ -173,6 +173,7 @@ func _input(_event):
 			acc.x -= sprint_acceleration
 	
 	#If there is no movement, play idle animation
+	#TODO: Implement animations for sprint and walk (when given)
 	if acc.x == 0: 
 		sprite.animation = idle_anim_name
 		sprite.play()
