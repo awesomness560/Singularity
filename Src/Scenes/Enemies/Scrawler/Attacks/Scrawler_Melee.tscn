@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://dbolghqlp80b2"]
+
+[ext_resource type="Script" path="res://Src/Scenes/Enemies/Scrawler/Attacks/Scrawler_Melee.gd" id="1_kmhw3"]
+[ext_resource type="Texture2D" uid="uid://cv1txvjyevrfr" path="res://Src/Assets/Enemies/Scrawler/Scrawler_Melee_particle.png" id="1_lltkd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u1a5r"]
+size = Vector2(55, 50)
+
+[sub_resource type="Curve" id="Curve_pbion"]
+_data = [Vector2(0, 0.990736), 0.0, 0.375068, 0, 0, Vector2(0.960894, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="ScrawlerMelee" type="Node2D"]
+script = ExtResource("1_kmhw3")
+
+[node name="ScrawlerMeleeArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScrawlerMeleeArea"]
+position = Vector2(20, 0)
+shape = SubResource("RectangleShape2D_u1a5r")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="ScrawlerMeleeArea"]
+texture_filter = 1
+emitting = false
+amount = 50
+lifetime = 3.0
+one_shot = true
+speed_scale = 3.91
+explosiveness = 0.44
+randomness = 0.05
+texture = ExtResource("1_lltkd")
+emission_shape = 1
+emission_sphere_radius = 15.0
+spread = 44.55
+gravity = Vector2(0, 0)
+initial_velocity_min = 25.25
+initial_velocity_max = 35.35
+angular_velocity_min = 10.0
+angular_velocity_max = 10.0
+radial_accel_min = 2.0
+radial_accel_max = 2.0
+scale_amount_min = 0.35
+scale_amount_curve = SubResource("Curve_pbion")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="body_entered" from="ScrawlerMeleeArea" to="." method="_on_scrawler_melee_area_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
