@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://ifasbfnl70il"]
+[gd_scene load_steps=12 format=3 uid="uid://c6jf1kb5bfh54"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
+[ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_pce26"]
 [ext_resource type="Texture2D" uid="uid://b065kjmdbtwud" path="res://Src/Assets/Player/slime_sprite_sheet.png" id="2_41mqq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aeaqp"]
@@ -57,6 +58,7 @@ animations = [{
 size = Vector2(148, 98)
 
 [node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_pce26")
 
 [node name="Movement" type="Node" parent="." node_paths=PackedStringArray("player", "sprite")]
 script = ExtResource("1_hgxmi")
@@ -73,3 +75,9 @@ frame_progress = 0.4876
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ilbhh")
+
+[node name="CameraTarget" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="CameraTarget"]
+zoom = Vector2(0.705, 0.705)
+position_smoothing_enabled = true
