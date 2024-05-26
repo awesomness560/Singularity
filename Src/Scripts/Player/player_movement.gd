@@ -7,6 +7,8 @@ signal hit_ground()
 
 
 @export var player : CharacterBody2D
+
+@export_group("Input Maps")
 # Set these to the name of your action (in the Input Map)
 ## Name of input action to move left.
 @export var input_left : String = "move_left"
@@ -14,6 +16,8 @@ signal hit_ground()
 @export var input_right : String = "move_right"
 ## Name of input action to jump.
 @export var input_jump : String = "jump"
+##Name of input action to sprint
+@export var input_sprint : String = "sprint"
 
 
 const DEFAULT_MAX_JUMP_HEIGHT = 150
@@ -23,6 +27,8 @@ const DEFAULT_JUMP_DURATION = 0.3
 
 var _max_jump_height: float = DEFAULT_MAX_JUMP_HEIGHT
 ## The max jump height in pixels (holding jump).
+@export_group("Jump Settings")
+@export_subgroup("Velocity Based Settings")
 @export var max_jump_height: float = DEFAULT_MAX_JUMP_HEIGHT: 
 	get:
 		return _max_jump_height
@@ -74,16 +80,25 @@ var _jump_duration: float = DEFAULT_JUMP_DURATION
 		
 ## Multiplies the gravity by this while falling.
 @export var falling_gravity_multiplier = 1.5
+@export_subgroup("Other Jump Settings")
 ## Amount of jumps allowed before needing to touch the ground again. Set to 2 for double jump.
 @export var max_jump_amount = 1
-@export var max_acceleration = 10000
-@export var friction = 20
-@export var can_hold_jump : bool = false
+@export var can_hold_jump : bool = false ##Allows you to hold jump to keep jumping
 ## You can still jump this many seconds after falling off a ledge.
 @export var coyote_time : float = 0.1
 ## Pressing jump this many seconds before hitting the ground will still make you jump.
 ## Only neccessary when can_hold_jump is unchecked.
 @export var jump_buffer : float = 0.1
+
+@export_group("Movement Settings")
+@export var max_acceleration = 10000 ##Speed to move at when walking
+@export var sprint_acceleration : int = 50000
+@export var friction = 20
+
+@export_group("Animations")
+@export var sprite : AnimatedSprite2D ##The sprite visuals
+@export var idle_anim_name : String = "default" ##The name of the idle animation in the animated sprite
+@export var walking_anim_name :  String = "walking" ##The name of the walking animation in the animated sprite
 
 
 # These will be calcualted automatically
@@ -150,6 +165,17 @@ func _input(_event):
 		
 	if Input.is_action_just_released(input_jump):
 		holding_jump = false
+	
+	if (Input.is_action_pressed(input_right) or Input.is_action_pressed(input_left)) and Input.is_action_pressed(input_sprint):
+		if acc.x > 0:
+			acc.x += sprint_acceleration
+		else:
+			acc.x -= sprint_acceleration
+	
+	#If there is no movement, play idle animation
+	if acc.x == 0: 
+		sprite.animation = idle_anim_name
+		sprite.play()
 
 
 func _physics_process(delta):

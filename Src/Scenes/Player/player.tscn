@@ -58,9 +58,12 @@ size = Vector2(148, 98)
 
 [node name="Player" type="CharacterBody2D"]
 
-[node name="Movement" type="Node" parent="." node_paths=PackedStringArray("player")]
+[node name="Movement" type="Node" parent="." node_paths=PackedStringArray("player", "sprite")]
 script = ExtResource("1_hgxmi")
 player = NodePath("..")
+max_jump_height = 250.0
+sprint_acceleration = 10000
+sprite = NodePath("../AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(3.8147e-06, 1)
