@@ -1,7 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dxalhm18pgrig"]
+[gd_scene load_steps=15 format=3 uid="uid://dxalhm18pgrig"]
 
+[ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_c512k"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
 [ext_resource type="Texture2D" uid="uid://b065kjmdbtwud" path="res://Src/Assets/Player/slime_sprite_sheet.png" id="2_41mqq"]
+[ext_resource type="Texture2D" uid="uid://cv1txvjyevrfr" path="res://Src/Assets/Enemies/Scrawler/Scrawler_Melee_particle.png" id="4_0ji4o"]
+[ext_resource type="Script" path="res://Src/Scripts/Modules/health_module.gd" id="5_fpod0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aeaqp"]
 atlas = ExtResource("2_41mqq")
@@ -56,7 +59,11 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ilbhh"]
 size = Vector2(148, 98)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ktwpq"]
+
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 3
+script = ExtResource("1_c512k")
 
 [node name="Movement" type="Node" parent="." node_paths=PackedStringArray("player", "sprite")]
 script = ExtResource("1_hgxmi")
@@ -75,3 +82,41 @@ frame_progress = 0.58142
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 8)
 shape = SubResource("RectangleShape2D_ilbhh")
+
+[node name="RadiationBlastArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RadiationBlastArea"]
+shape = SubResource("CircleShape2D_ktwpq")
+disabled = true
+
+[node name="RadiationParticles" type="CPUParticles2D" parent="RadiationBlastArea"]
+emitting = false
+amount = 100
+texture = ExtResource("4_0ji4o")
+emission_shape = 2
+emission_sphere_radius = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 65.66
+initial_velocity_max = 161.62
+orbit_velocity_min = 1.0
+orbit_velocity_max = 2.0
+radial_accel_max = 20.2
+color = Color(0.0541422, 0.0541422, 0.0541422, 1)
+hue_variation_min = -0.56
+hue_variation_max = 0.68
+
+[node name="RadiationMoveTimer" type="Timer" parent="RadiationBlastArea"]
+wait_time = 0.5
+autostart = true
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("5_fpod0")
+
+[connection signal="body_entered" from="RadiationBlastArea" to="." method="_on_radiation_blast_area_body_entered"]
+[connection signal="body_exited" from="RadiationBlastArea" to="." method="_on_radiation_blast_area_body_exited"]
+[connection signal="timeout" from="RadiationBlastArea/RadiationMoveTimer" to="." method="_on_radiation_move_timer_timeout"]

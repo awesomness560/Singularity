@@ -7,7 +7,7 @@
 size = Vector2(527, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l8j0l"]
-size = Vector2(1153, 60)
+size = Vector2(1626, 60)
 
 [node name="TestScene" type="Node2D"]
 
@@ -33,7 +33,7 @@ color = Color(0, 0, 0, 1)
 [node name="StaticBody2D" type="StaticBody2D" parent="ColorRect2"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect2/StaticBody2D"]
-position = Vector2(576.5, 30)
+position = Vector2(813, 30)
 shape = SubResource("RectangleShape2D_l8j0l")
 
 [node name="Player" parent="." instance=ExtResource("1_ag3nh")]

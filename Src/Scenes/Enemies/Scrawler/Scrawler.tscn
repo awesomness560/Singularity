@@ -1,22 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://do8ympc0wmpnl"]
+[gd_scene load_steps=8 format=3 uid="uid://do8ympc0wmpnl"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Enemies/Scrawler/Scrawler.gd" id="1_c1coi"]
 [ext_resource type="Texture2D" uid="uid://cv1txvjyevrfr" path="res://Src/Assets/Enemies/Scrawler/Scrawler_Melee_particle.png" id="2_s4mkh"]
+[ext_resource type="Script" path="res://Src/Scripts/Modules/health_module.gd" id="3_28bxb"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_gcvm8"]
-radius = 17.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tb3jb"]
+size = Vector2(35, 37)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hkf2f"]
-radius = 416.001
+radius = 1199.17
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_88je4"]
-size = Vector2(55, 50)
+size = Vector2(151.5, 50)
 
 [sub_resource type="Curve" id="Curve_ucf0q"]
 _data = [Vector2(0, 0.990736), 0.0, 0.375068, 0, 0, Vector2(0.980447, 0.336105), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Scrawler" type="CharacterBody2D"]
+collision_layer = 4
 motion_mode = 1
 script = ExtResource("1_c1coi")
 
@@ -36,18 +38,23 @@ pivot_offset = Vector2(20, 20)
 color = Color(1, 1, 0.207843, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_gcvm8")
+shape = SubResource("RectangleShape2D_tb3jb")
 
 [node name="Nearby" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nearby"]
 shape = SubResource("CircleShape2D_hkf2f")
 
 [node name="ScrawlerMeleeArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScrawlerMeleeArea"]
-position = Vector2(32, 0)
+position = Vector2(80.25, 0)
 shape = SubResource("RectangleShape2D_88je4")
 
 [node name="MeleeParticles" type="CPUParticles2D" parent="ScrawlerMeleeArea"]
@@ -75,10 +82,19 @@ scale_amount_curve = SubResource("Curve_ucf0q")
 
 [node name="ColorRect" type="ColorRect" parent="ScrawlerMeleeArea"]
 offset_left = 7.0
-offset_top = -9.0
-offset_right = 61.0
-offset_bottom = 9.0
+offset_top = -26.0
+offset_right = 159.0
+offset_bottom = 23.0
+
+[node name="Last_Pos_Rot_timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("3_28bxb")
 
 [connection signal="body_entered" from="Nearby" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Nearby" to="." method="_on_area_2d_body_exited"]
 [connection signal="body_entered" from="ScrawlerMeleeArea" to="." method="_on_scrawler_melee_area_body_entered"]
+[connection signal="body_exited" from="ScrawlerMeleeArea" to="." method="_on_scrawler_melee_area_body_exited"]
+[connection signal="timeout" from="Last_Pos_Rot_timer" to="." method="_on_last_pos_rot_timer_timeout"]
