@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://boy17pemt8twi"]
+
+[ext_resource type="Script" path="res://Src/Scripts/Other/biome_spawner.gd" id="1_i80ui"]
+[ext_resource type="PackedScene" uid="uid://c6jf1kb5bfh54" path="res://Src/Scenes/Player/player.tscn" id="2_mdx8n"]
+
+[node name="BiomeSpawner" type="Node2D"]
+script = ExtResource("1_i80ui")
+biomeDirectory = "res://Src/Resources/Biomes"
+
+[node name="Player" parent="." instance=ExtResource("2_mdx8n")]
+position = Vector2(398, 224)
