@@ -9,6 +9,7 @@ class_name Player
 var timeMoving : float = 0
 
 func _physics_process(delta):
+	
 	if velocity == Vector2.ZERO:
 		timeMoving = 0
 	else:

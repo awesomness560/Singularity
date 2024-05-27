@@ -1,9 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://c6jf1kb5bfh54"]
+[gd_scene load_steps=18 format=3 uid="uid://c6jf1kb5bfh54"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_pce26"]
 [ext_resource type="Texture2D" uid="uid://b065kjmdbtwud" path="res://Src/Assets/Player/slime_sprite_sheet.png" id="2_41mqq"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_camera.gd" id="4_sgymo"]
+[ext_resource type="Script" path="res://Src/Scripts/Modules/health_module.gd" id="5_w7ke5"]
+[ext_resource type="PackedScene" uid="uid://bwj8odndeofvj" path="res://Src/Scenes/Player/health_bar.tscn" id="6_lmt8k"]
+[ext_resource type="Script" path="res://Src/Scripts/Modules/damager.gd" id="7_mogai"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aeaqp"]
 atlas = ExtResource("2_41mqq")
@@ -64,9 +67,16 @@ size = Vector2(312, 1307)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eqfar"]
 size = Vector2(191, 1333)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cameraTarget")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cameraTarget", "damageNode")]
 script = ExtResource("1_pce26")
 cameraTarget = NodePath("CameraTarget")
+damageNode = NodePath("Damager")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" parent="HUD" instance=ExtResource("6_lmt8k")]
+offset_right = 542.0
+offset_bottom = 26.0
 
 [node name="Movement" type="Node" parent="." node_paths=PackedStringArray("player", "sprite")]
 script = ExtResource("1_hgxmi")
@@ -104,6 +114,17 @@ shape = SubResource("RectangleShape2D_gkgaf")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CameraTarget/Camera2D/Area2D"]
 position = Vector2(1057, -10.5)
 shape = SubResource("RectangleShape2D_eqfar")
+
+[node name="HealthModule" type="Node" parent="." node_paths=PackedStringArray("healthBar", "damageNumberOrigin")]
+script = ExtResource("5_w7ke5")
+healthBar = NodePath("../HUD/HealthBar")
+damageNumberOrigin = NodePath("../DamageNumbersOrigin")
+
+[node name="DamageNumbersOrigin" type="Node2D" parent="."]
+position = Vector2(22, -14)
+
+[node name="Damager" type="Node" parent="."]
+script = ExtResource("7_mogai")
 
 [connection signal="body_entered" from="CameraTarget/Camera2D/Area2D" to="CameraTarget/Camera2D" method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="CameraTarget/Camera2D/Area2D" to="CameraTarget/Camera2D" method="_on_area_2d_area_exited"]

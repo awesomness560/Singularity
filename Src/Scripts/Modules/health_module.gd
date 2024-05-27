@@ -1,18 +1,40 @@
 extends Node
-class_name HealthModule
+class_name Health
 
-var currentHealth : float
+signal dead
 
-@export var maxHealth : float = 100
+@export var maxHealth : int = 100 ##The maximum health of this object
+@export var isInvulnerable : bool = false
+@export_group("References")
+@export var healthBar : HealthBar
+@export var damageNumberOrigin : Node2D ##A node containing the origin of where the damage numbers should spawn (PLEASE SET)
+var health : float #The current health of the object
 
 func _ready():
-	currentHealth = maxHealth
+	health = maxHealth #Setting the current health to the max health
+	if healthBar:
+		healthBar.init_health(maxHealth)
 
-#I put this in a function so that we can add other effects when we want to change health
-#Like particles or changing a healthbar
-#Makes adding new things easier
-func changeHealth(amount : float):
-	currentHealth += amount
-	
-	if currentHealth > maxHealth: #Making sure we don't go over the max health
-		currentHealth = maxHealth
+func lowerHealth(damage : float, isCrit : bool = false):
+	if !isInvulnerable:
+		health -= damage #Reduces current health by specfied amount
+		if damageNumberOrigin:
+			if isCrit:
+				DamageNumbers.displayNumber(damage, damageNumberOrigin.global_position, true)
+			else:
+				DamageNumbers.displayNumber(damage, damageNumberOrigin.global_position)
+		if healthBar:
+			healthBar._set_health(health)
+		if(health <= 0): #Checks if the health is less than zero
+			dead.emit() #Sends a signal saying that this object is dead
+			health = 0 #Changes to health to zero to prevent negative health
+
+func increaseHealth(heal : float):
+	health += heal #Increases current health by heal amount
+	if healthBar:
+		healthBar.health = health
+	if health > maxHealth: #Checks if the heal makes the health go over max health
+		health = maxHealth #If that is the case, then it will set the current health exactly equal to max health
+
+func changeMaxHealth(change : int): #Changes the max health
+	maxHealth = change

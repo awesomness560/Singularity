@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://do8ympc0wmpnl" path="res://Src/Scenes/Enemies/Scrawler/Scrawler.tscn" id="2_boyhg"]
 [ext_resource type="PackedScene" uid="uid://bef4ouefxrti" path="res://Src/Scenes/Particles/Quark/Quark_particle.tscn" id="3_y1awf"]
-[ext_resource type="PackedScene" uid="uid://cw3f3cyiklgnl" path="res://Src/Scenes/Player/playerDoge.tscn" id="4_1o658"]
+[ext_resource type="PackedScene" uid="uid://c6jf1kb5bfh54" path="res://Src/Scenes/Player/player.tscn" id="4_68qai"]
 [ext_resource type="PackedScene" uid="uid://b0cm8016fqn3r" path="res://Src/Scenes/Enemies/Sek'yi/Sek'yi.tscn" id="4_axb8i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b4yoc"]
@@ -47,4 +47,4 @@ position = Vector2(1011, 405)
 [node name="Sek\'yi" parent="." instance=ExtResource("4_axb8i")]
 position = Vector2(1051, 414)
 
-[node name="Player2" parent="." instance=ExtResource("4_1o658")]
+[node name="Player" parent="." instance=ExtResource("4_68qai")]

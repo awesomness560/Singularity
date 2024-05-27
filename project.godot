@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Signal_bus="*res://Src/Scripts/AutoLoad/Signal_bus.gd"
+DamageNumbers="*res://Src/Scenes/Autoloads/damage_numbers.tscn"
 
 [display]
 
