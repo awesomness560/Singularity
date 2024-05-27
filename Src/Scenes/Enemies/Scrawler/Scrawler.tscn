@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://Src/Scripts/Enemies/Scrawler/Scrawler.gd" id="1_c1coi"]
 [ext_resource type="Texture2D" uid="uid://cv1txvjyevrfr" path="res://Src/Assets/Enemies/Scrawler/Scrawler_Melee_particle.png" id="2_s4mkh"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_x5oad"]
-size = Vector2(40, 40)
+[sub_resource type="CircleShape2D" id="CircleShape2D_gcvm8"]
+radius = 17.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hkf2f"]
 radius = 416.001
@@ -13,7 +13,7 @@ radius = 416.001
 size = Vector2(55, 50)
 
 [sub_resource type="Curve" id="Curve_ucf0q"]
-_data = [Vector2(0, 0.990736), 0.0, 0.375068, 0, 0, Vector2(0.960894, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0.990736), 0.0, 0.375068, 0, 0, Vector2(0.980447, 0.336105), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Scrawler" type="CharacterBody2D"]
@@ -36,7 +36,7 @@ pivot_offset = Vector2(20, 20)
 color = Color(1, 1, 0.207843, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_x5oad")
+shape = SubResource("CircleShape2D_gcvm8")
 
 [node name="Nearby" type="Area2D" parent="."]
 monitorable = false
@@ -50,10 +50,10 @@ shape = SubResource("CircleShape2D_hkf2f")
 position = Vector2(32, 0)
 shape = SubResource("RectangleShape2D_88je4")
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="ScrawlerMeleeArea"]
+[node name="MeleeParticles" type="CPUParticles2D" parent="ScrawlerMeleeArea"]
 texture_filter = 1
 emitting = false
-amount = 50
+amount = 100
 lifetime = 3.0
 one_shot = true
 speed_scale = 3.91
@@ -70,7 +70,7 @@ angular_velocity_min = 10.0
 angular_velocity_max = 10.0
 radial_accel_min = 2.0
 radial_accel_max = 2.0
-scale_amount_min = 0.35
+scale_amount_min = 0.8
 scale_amount_curve = SubResource("Curve_ucf0q")
 
 [node name="ColorRect" type="ColorRect" parent="ScrawlerMeleeArea"]

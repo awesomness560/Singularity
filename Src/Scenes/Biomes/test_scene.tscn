@@ -40,4 +40,4 @@ shape = SubResource("RectangleShape2D_l8j0l")
 position = Vector2(836, 535)
 
 [node name="Scrawler" parent="." instance=ExtResource("2_boyhg")]
-position = Vector2(543, 393)
+position = Vector2(523, 260)
