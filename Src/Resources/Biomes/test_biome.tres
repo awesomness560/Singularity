@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="BiomeResource" load_steps=3 format=3 uid="uid://b1du8kxnhlmd3"]
+
+[ext_resource type="Script" path="res://Src/Scripts/Resources/biome_resource.gd" id="1_63im1"]
+[ext_resource type="PackedScene" uid="uid://b7h16k7uitujt" path="res://Src/Scenes/Biomes/biomeTest.tscn" id="1_kr1kh"]
+
+[resource]
+script = ExtResource("1_63im1")
+biomeScene = ExtResource("1_kr1kh")
