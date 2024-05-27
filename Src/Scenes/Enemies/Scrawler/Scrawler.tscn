@@ -59,6 +59,7 @@ shape = SubResource("RectangleShape2D_88je4")
 
 [node name="MeleeParticles" type="CPUParticles2D" parent="ScrawlerMeleeArea"]
 texture_filter = 1
+position = Vector2(22, 0)
 emitting = false
 amount = 100
 lifetime = 3.0
@@ -71,8 +72,8 @@ emission_shape = 1
 emission_sphere_radius = 15.0
 spread = 44.55
 gravity = Vector2(0, 0)
-initial_velocity_min = 25.25
-initial_velocity_max = 35.35
+initial_velocity_min = 176.77
+initial_velocity_max = 176.77
 angular_velocity_min = 10.0
 angular_velocity_max = 10.0
 radial_accel_min = 2.0
