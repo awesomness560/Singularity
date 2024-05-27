@@ -69,6 +69,7 @@ radiation_Blast={
 2d_physics/layer_1="Basic/ground and walls"
 2d_physics/layer_2="enemy attack & scan"
 2d_physics/layer_3="enemy collision layer"
+2d_physics/layer_4="Particles"
 
 [rendering]
 

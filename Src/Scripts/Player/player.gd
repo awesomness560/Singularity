@@ -14,8 +14,9 @@ func _on_radiation_blast_area_body_entered(body):
 		inradiation.append(body)
 
 func _on_radiation_move_timer_timeout():
+	#TODO: Add damage to i
 	for i in inradiation:
-		
+		pass
 	if radiating and radiatingTimeLeft > 0:
 			radiatingTimeLeft -= 1
 			print(int(radiatingTimeLeft/.1))
@@ -31,3 +32,14 @@ func _on_radiation_move_timer_timeout():
 func _on_radiation_blast_area_body_exited(body):
 	if body in inradiation:
 		inradiation.erase(body)
+		
+func grow(scaleFactor):
+	self.apply_scale(Vector2(scaleFactor,scaleFactor))
+
+
+
+func _on_particle_collector_area_entered(area):
+	print(area.name)
+	if area.particleType == "Quark":
+		grow(area.size)
+		area.queue_free()

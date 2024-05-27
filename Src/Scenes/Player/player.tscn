@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dxalhm18pgrig"]
+[gd_scene load_steps=16 format=3 uid="uid://dxalhm18pgrig"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_c512k"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
@@ -61,6 +61,9 @@ size = Vector2(148, 98)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ktwpq"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_tcqjb"]
+radius = 101.0
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 3
 script = ExtResource("1_c512k")
@@ -111,12 +114,21 @@ hue_variation_min = -0.56
 hue_variation_max = 0.68
 
 [node name="RadiationMoveTimer" type="Timer" parent="RadiationBlastArea"]
-wait_time = 0.5
+wait_time = 0.1
 autostart = true
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("5_fpod0")
 
+[node name="ParticleCollector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParticleCollector"]
+shape = SubResource("CircleShape2D_tcqjb")
+
 [connection signal="body_entered" from="RadiationBlastArea" to="." method="_on_radiation_blast_area_body_entered"]
 [connection signal="body_exited" from="RadiationBlastArea" to="." method="_on_radiation_blast_area_body_exited"]
 [connection signal="timeout" from="RadiationBlastArea/RadiationMoveTimer" to="." method="_on_radiation_move_timer_timeout"]
+[connection signal="area_entered" from="ParticleCollector" to="." method="_on_particle_collector_area_entered"]
