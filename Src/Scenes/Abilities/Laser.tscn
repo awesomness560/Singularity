@@ -1,0 +1,121 @@
+[gd_scene load_steps=12 format=3 uid="uid://jjyga60mn7wj"]
+
+[ext_resource type="Script" path="res://Src/Scripts/Abilities/laser.gd" id="1_dpyfl"]
+[ext_resource type="Texture2D" uid="uid://bcjfm3w4pp7b1" path="res://Src/Assets/Particles/glowing_circle.png" id="2_q3er1"]
+[ext_resource type="Script" path="res://Src/Scripts/Modules/damager.gd" id="3_blhic"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_njq7v"]
+size = Vector2(20, 10)
+
+[sub_resource type="Gradient" id="Gradient_6pbhk"]
+offsets = PackedFloat32Array(0, 0.786885, 0.844262)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6td4w"]
+gradient = SubResource("Gradient_6pbhk")
+
+[sub_resource type="Curve" id="Curve_fx6s0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.606667, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_dunfl"]
+curve = SubResource("Curve_fx6s0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gqyhh"]
+particle_flag_disable_z = true
+initial_velocity_min = 120.0
+initial_velocity_max = 120.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_dunfl")
+color_ramp = SubResource("GradientTexture1D_6td4w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_eutcd"]
+particle_flag_disable_z = true
+initial_velocity_min = 250.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_dunfl")
+color_ramp = SubResource("GradientTexture1D_6td4w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_38jqy"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 10, 1)
+gravity = Vector3(0, 98, 0)
+tangential_accel_min = 100.0
+tangential_accel_max = 100.0
+scale_min = 0.2
+scale_max = 0.2
+
+[node name="Laser" type="ShapeCast2D" node_paths=PackedStringArray("castingParticles", "collisionParticles", "beamParticles", "line2d", "damageNode", "damageRate", "cooldownTimer", "maxActivationTimer", "activationTimer")]
+shape = SubResource("RectangleShape2D_njq7v")
+target_position = Vector2(9000, 0)
+max_results = 1
+collision_mask = 3
+script = ExtResource("1_dpyfl")
+beamSize = 50.0
+castingParticles = NodePath("CastingParticles")
+collisionParticles = NodePath("CollisionParticles")
+beamParticles = NodePath("BeamParticles")
+line2d = NodePath("Line2D")
+damageNode = NodePath("Damager")
+damageRate = NodePath("Timers/DamageRate")
+cooldownTimer = NodePath("Timers/Cooldown")
+maxActivationTimer = NodePath("Timers/MaxActivationTime")
+activationTimer = NodePath("Timers/AutoActivationTime")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 100, 0)
+default_color = Color(0.5, 1.5, 1.5, 1)
+
+[node name="CastingParticles" type="GPUParticles2D" parent="."]
+modulate = Color(1.5, 1.5, 1.5, 1)
+scale = Vector2(0.355, 0.355)
+emitting = false
+amount = 18
+process_material = SubResource("ParticleProcessMaterial_gqyhh")
+texture = ExtResource("2_q3er1")
+lifetime = 0.3
+local_coords = true
+
+[node name="CollisionParticles" type="GPUParticles2D" parent="."]
+modulate = Color(1.5, 1.5, 1.5, 1)
+scale = Vector2(0.345, 0.345)
+emitting = false
+amount = 18
+process_material = SubResource("ParticleProcessMaterial_eutcd")
+texture = ExtResource("2_q3er1")
+lifetime = 0.3
+local_coords = true
+
+[node name="BeamParticles" type="GPUParticles2D" parent="."]
+modulate = Color(1.8, 1.8, 1.8, 1)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_38jqy")
+texture = ExtResource("2_q3er1")
+lifetime = 0.3
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="DamageRate" type="Timer" parent="Timers"]
+wait_time = 0.5
+
+[node name="Cooldown" type="Timer" parent="Timers"]
+wait_time = 2.5
+one_shot = true
+
+[node name="AutoActivationTime" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="MaxActivationTime" type="Timer" parent="Timers"]
+wait_time = 3.0
+one_shot = true
+
+[node name="Damager" type="Node" parent="."]
+script = ExtResource("3_blhic")
+baseDamage = 5
+
+[connection signal="timeout" from="Timers/DamageRate" to="." method="_on_damage_rate_timeout"]
+[connection signal="timeout" from="Timers/Cooldown" to="." method="_on_cooldown_timeout"]
+[connection signal="timeout" from="Timers/AutoActivationTime" to="." method="_on_auto_activation_time_timeout"]
+[connection signal="timeout" from="Timers/MaxActivationTime" to="." method="_on_max_activation_time_timeout"]

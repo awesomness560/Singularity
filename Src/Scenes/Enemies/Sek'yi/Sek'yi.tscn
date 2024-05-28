@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0cm8016fqn3r"]
+[gd_scene load_steps=12 format=3 uid="uid://b0cm8016fqn3r"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Enemies/Sek'yi/Sek'yi.gd" id="1_1uiw4"]
 [ext_resource type="Texture2D" uid="uid://cv1txvjyevrfr" path="res://Src/Assets/Enemies/Scrawler/Scrawler_Melee_particle.png" id="1_c34sh"]
 [ext_resource type="Texture2D" uid="uid://cjyoa5nwjsx5y" path="res://Src/Assets/Enemies/Sek'yi/sek'yi.png" id="2_3h3o5"]
+[ext_resource type="PackedScene" uid="uid://bwj8odndeofvj" path="res://Src/Scenes/Player/health_bar.tscn" id="4_2hudr"]
+[ext_resource type="Script" path="res://Src/Scripts/Modules/health_module.gd" id="5_4lycb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_we031"]
 radius = 25.0799
@@ -30,7 +32,7 @@ gradient = SubResource("Gradient_drm2i")
 
 [node name="Sek\'yi" type="CharacterBody2D"]
 scale = Vector2(2, 2)
-collision_layer = 0
+collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_1uiw4")
 
@@ -89,6 +91,16 @@ rotation = -1.64522
 scale = Vector2(0.250451, 3.25784)
 mesh = SubResource("PrismMesh_c6ffe")
 texture = SubResource("GradientTexture1D_83fg3")
+
+[node name="HealthBar" parent="." instance=ExtResource("4_2hudr")]
+offset_left = -115.5
+offset_top = -51.0
+offset_right = 124.5
+offset_bottom = -41.0
+
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("healthBar")]
+script = ExtResource("5_4lycb")
+healthBar = NodePath("../HealthBar")
 
 [connection signal="body_entered" from="NearbyArea" to="." method="_on_nearby_area_body_entered"]
 [connection signal="body_exited" from="NearbyArea" to="." method="_on_nearby_area_body_exited"]
