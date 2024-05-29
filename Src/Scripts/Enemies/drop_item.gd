@@ -7,6 +7,8 @@ class_name DropItem
 func _ready():
 	if healthNode:
 		healthNode.dead.connect(spawnPickup)
+	
+	assert(pickupScene, "You did not assign the pickup scene for the drop item node for the creature " + str(get_parent()))
 		
 func spawnPickup(destroyNodeOnDeath : bool = true):
 	var pickup : Pickup = pickupScene.instantiate()
