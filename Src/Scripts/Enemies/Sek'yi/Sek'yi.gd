@@ -14,7 +14,7 @@ var direction = -5
 func _physics_process(delta):
 	# Add the gravity.
 	if len(nearby) == 0:
-		global_rotation += PI/16
+		$"Sek'yi".global_rotation += PI/16
 
 func _on_nearby_area_body_exited(body):
 	if body in nearby:
@@ -27,6 +27,7 @@ func _on_nearby_area_body_entered(body):
 
 
 func _on_spawn_timer_timeout():
-	var scrawlerInstance = Scrawler.instantiate()
-	scrawlerInstance.global_position = self.global_position
-	get_tree().root.add_child(scrawlerInstance)
+	if len(nearby) > 0:
+		var scrawlerInstance = Scrawler.instantiate()
+		scrawlerInstance.global_position = self.global_position
+		get_tree().root.add_child(scrawlerInstance)

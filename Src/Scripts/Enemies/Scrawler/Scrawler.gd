@@ -9,7 +9,6 @@ var lastPosition = self.global_position
 var lastRotation = self.global_rotation
 var stuck = false
 var attacking = false
-
 func _physics_process(delta):
 	# Add the gravity.
 	if len(nearby) > 0 and !stuck:
