@@ -1,12 +1,28 @@
 extends CharacterBody2D
 class_name Player
 
-@export var cameraTarget : Node2D
-@export var margins : float = 400
-@export var divider : float = 100
-@export var transitionSpeed : float = 0.3
+@export var margins : float = 400 ##How far the camera can go before being clamped
+@export var transitionSpeed : float = 0.3 ##Speed of the camera
+
+@export_group("References")
+@export var cameraTarget : Node2D ##The camera target node
+@export var collisionShape : CollisionShape2D
+@export var scalableProperty : Node2D ##I set this to the sprite for now but if we want to scale more things this would be easier
+
+@onready var originalSize : Vector2 = collisionShape.shape.size
+@onready var originalScale : Vector2 = scalableProperty.scale
 
 var timeMoving : float = 0
+var scaleFactor : float = 1 : set = changeScaleFactor
+
+func _ready():
+	pass
+
+func _unhandled_input(event):
+	if event.is_action_pressed("overcharge") and scaleFactor > 0.2:
+		#TODO: Add in overcharge particle effects here
+		scaleFactor -= 1
+		Signal_bus.overcharged.emit()
 
 func _physics_process(delta):
 	
@@ -29,3 +45,13 @@ func _physics_process(delta):
 			cameraTarget.position.y = margins
 		else:
 			cameraTarget.position.y = -margins
+
+func changeScaleFactor(newFactor : float):
+	#FIXME: When scaling up the player, the arrow and laser should also scale up (maybe)
+	scaleFactor = clampf(newFactor, 0.1, INF)
+	
+	scalableProperty.scale = Vector2(originalScale.x * scaleFactor, originalScale.y * scaleFactor)
+	
+	var newShape : RectangleShape2D = collisionShape.shape
+	newShape.size = Vector2(originalSize.x * scaleFactor, originalSize.y * scaleFactor)
+	collisionShape.shape = newShape

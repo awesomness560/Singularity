@@ -114,8 +114,8 @@ one_shot = true
 [node name="Damager" type="Node" parent="."]
 script = ExtResource("3_blhic")
 baseDamage = 5
+critMultiplier = 3.0
 
 [connection signal="timeout" from="Timers/DamageRate" to="." method="_on_damage_rate_timeout"]
 [connection signal="timeout" from="Timers/Cooldown" to="." method="_on_cooldown_timeout"]
-[connection signal="timeout" from="Timers/AutoActivationTime" to="." method="_on_auto_activation_time_timeout"]
 [connection signal="timeout" from="Timers/MaxActivationTime" to="." method="_on_max_activation_time_timeout"]

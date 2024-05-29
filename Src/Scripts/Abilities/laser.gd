@@ -12,6 +12,9 @@ var collisionBody
 var isFiring : bool = false
 var initalShot : bool = true
 var onCooldown : bool = true
+var isOvercharged : bool = false : set = setOvercharge
+
+@onready var originalCritRate : float = damageNode.critRate / 100
 
 @export_group("References")
 @export var castingParticles : GPUParticles2D
@@ -31,16 +34,15 @@ func _ready():
 	$Line2D.points[1] = Vector2.ZERO #Makes the line disappear
 	
 	cooldownTimer.start()
+	Signal_bus.overcharged.connect(overcharge)
+
+func _unhandled_input(event):
+	if event.is_action_pressed("use_ability_1") and not onCooldown:
+		_on_auto_activation_time_timeout()
 
 func _physics_process(delta):
 	var castPoint := target_position
 	force_shapecast_update()
-	
-	#for i in line2d.points.size() - 1:
-		#new_shape.position = (line2d.points[i] + line2d.points[i + 1]) / 2
-		#new_shape.rotation = line2d.points[i].direction_to(line2d.points[i + 1]).angle()
-		#var length = line2d.points[i].distance_to(line2d.points[i + 1])
-		#rect.extents = Vector2(length / 2, beamSize * 0.65)
 	
 	$CollisionParticles.emitting = is_colliding()
 	
@@ -84,6 +86,18 @@ func set_is_casting(cast : bool):
 		#new_shape.process_mode = Node.PROCESS_MODE_DISABLED
 	set_physics_process(isCasting)
 	
+func setOvercharge(status : bool):
+	isOvercharged = status
+	
+	if status:
+		damageNode.critRate = 1
+	else:
+		damageNode.critRate = originalCritRate
+		Signal_bus.usedOvercharge.emit()
+
+func overcharge():
+	isOvercharged = true
+
 func appear():
 	tween.kill()
 	tween = create_tween()
@@ -116,6 +130,8 @@ func _on_max_activation_time_timeout():
 	isCasting = false
 	onCooldown = true
 	cooldownTimer.start()
+	
+	isOvercharged = false
 
 
 func _on_auto_activation_time_timeout():

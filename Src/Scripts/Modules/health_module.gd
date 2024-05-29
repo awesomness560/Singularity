@@ -7,13 +7,16 @@ signal dead
 @export var isInvulnerable : bool = false
 @export_group("References")
 @export var healthBar : HealthBar
-@export var damageNumberOrigin : Node2D ##A node containing the origin of where the damage numbers should spawn (PLEASE SET)
+@export var damageNumberOrigin : Node2D ##A Node2d containing the position of where the damage numbers should spawn (PLEASE SET)
 var health : float #The current health of the object
 
 func _ready():
 	health = maxHealth #Setting the current health to the max health
 	if healthBar:
 		healthBar.init_health(maxHealth)
+	
+	if not damageNumberOrigin:
+		printerr("Warning: You did not set a damage number origin for the health module on the node " + str(get_parent()))
 
 func lowerHealth(damage : float, isCrit : bool = false):
 	if !isInvulnerable:

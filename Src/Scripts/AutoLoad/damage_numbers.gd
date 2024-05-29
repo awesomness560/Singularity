@@ -1,6 +1,5 @@
 extends Node
 
-#FIXME: Damage numbers are just frozen permenantly now for some reason
 @export var criticalFontColor : Color
 @export var labelSettings : LabelSettings
 var fontColor : Color

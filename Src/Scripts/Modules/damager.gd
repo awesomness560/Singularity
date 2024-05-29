@@ -16,7 +16,6 @@ func config():
 func dealDamage(body):
 	if is_instance_valid(body):
 		healthModule = body.get_node_or_null("Health")
-		print(body)
 	
 	if healthModule:
 		if isCrit():

@@ -69,9 +69,11 @@ size = Vector2(312, 1307)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eqfar"]
 size = Vector2(191, 1333)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cameraTarget")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cameraTarget", "collisionShape", "scalableProperty")]
 script = ExtResource("1_pce26")
 cameraTarget = NodePath("CameraTarget")
+collisionShape = NodePath("CollisionShape2D")
+scalableProperty = NodePath("AnimatedSprite2D")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
