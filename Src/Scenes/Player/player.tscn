@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c6jf1kb5bfh54"]
+[gd_scene load_steps=21 format=3 uid="uid://c6jf1kb5bfh54"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_pce26"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Src/Scripts/Modules/damager.gd" id="7_mogai"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/ability_manager.gd" id="8_jhk7i"]
 [ext_resource type="PackedScene" uid="uid://jjyga60mn7wj" path="res://Src/Scenes/Abilities/Laser.tscn" id="9_g3idi"]
+[ext_resource type="Texture2D" uid="uid://15d4enbdexwl" path="res://Src/Assets/Other/arrow.png" id="10_gcncu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aeaqp"]
 atlas = ExtResource("2_41mqq")
@@ -138,21 +139,13 @@ aimRotator = NodePath("AimRotator")
 [node name="AimPoint" type="Node2D" parent="AbilityManager/AimRotator"]
 position = Vector2(127, 0)
 
-[node name="Arrow" type="ColorRect" parent="AbilityManager/AimRotator/AimPoint"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
 [node name="Laser" parent="AbilityManager/AimRotator/AimPoint" instance=ExtResource("9_g3idi")]
+position = Vector2(40, 0)
+
+[node name="Arrow" type="Sprite2D" parent="AbilityManager/AimRotator/AimPoint"]
+rotation = 1.5708
+scale = Vector2(0.0673828, 0.0673828)
+texture = ExtResource("10_gcncu")
 
 [connection signal="body_entered" from="CameraTarget/Camera2D/Area2D" to="CameraTarget/Camera2D" method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="CameraTarget/Camera2D/Area2D" to="CameraTarget/Camera2D" method="_on_area_2d_area_exited"]
