@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhnhoky3nww2n"
-path="res://.godot/imported/Scrawler (1).png-1bbff84409cb03f46aaf49378a70448d.ctex"
+uid="uid://b2wcqlgwpcokr"
+path="res://.godot/imported/Scrawler_0.png-6b6075a9d627851eadc29cb326548926.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Src/Assets/Enemies/Scrawler/Scrawler (1).png"
-dest_files=["res://.godot/imported/Scrawler (1).png-1bbff84409cb03f46aaf49378a70448d.ctex"]
+source_file="res://Src/Assets/Enemies/Scrawler/Scrawler_0.png"
+dest_files=["res://.godot/imported/Scrawler_0.png-6b6075a9d627851eadc29cb326548926.ctex"]
 
 [params]
 
