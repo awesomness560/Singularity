@@ -20,3 +20,4 @@ func spawnPickup(destroyNodeOnDeath : bool = true):
 	
 	if destroyNodeOnDeath:
 		get_parent().queue_free()
+		Signal_bus.shakeCam.emit(20, 5)

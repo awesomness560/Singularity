@@ -48,10 +48,13 @@ grow_vertical = 2
 [node name="EnemyScoreLabel" type="Label" parent="ScoreContainer"]
 layout_mode = 2
 theme = ExtResource("2_mpvne")
+theme_override_font_sizes/font_size = 30
 text = "Enemy killed score: "
 
 [node name="SizeScore" type="Label" parent="ScoreContainer"]
 layout_mode = 2
+theme = ExtResource("2_mpvne")
+theme_override_font_sizes/font_size = 30
 text = "Size score:"
 
 [node name="TimeScoreLabel" type="Label" parent="ScoreContainer"]

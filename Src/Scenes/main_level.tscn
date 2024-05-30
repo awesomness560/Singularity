@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://boy17pemt8twi"]
+[gd_scene load_steps=6 format=3 uid="uid://boy17pemt8twi"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Other/biome_spawner.gd" id="1_akj3x"]
 [ext_resource type="PackedScene" uid="uid://c6jf1kb5bfh54" path="res://Src/Scenes/Player/player.tscn" id="2_hrtp8"]
 [ext_resource type="Texture2D" uid="uid://bceamsfaxm56v" path="res://Src/Assets/Backgrounds/parallax-mountain-bg.png" id="3_icl6r"]
 [ext_resource type="Texture2D" uid="uid://b0rpp73yh2e7i" path="res://Src/Assets/Backgrounds/parallax-mountain-montain-far.png" id="4_rl7kq"]
+
+[sub_resource type="Environment" id="Environment_07lwh"]
 
 [node name="BiomeSpawner" type="Node2D"]
 script = ExtResource("1_akj3x")
@@ -44,3 +46,6 @@ position = Vector2(1152, 0)
 scale = Vector2(9.4, 9.4)
 texture = ExtResource("4_rl7kq")
 centered = false
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_07lwh")

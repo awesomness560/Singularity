@@ -10,6 +10,7 @@ class_name Player
 @export var collisionShape : CollisionShape2D
 @export var scalableProperty : Node2D ##I set this to the sprite for now but if we want to scale more things this would be easier
 @export var deathMenu : Control
+@export var sprite : AnimatedSprite2D
 
 @onready var originalSize : Vector2 = collisionShape.shape.size
 @onready var originalScale : Vector2 = scalableProperty.scale
@@ -17,14 +18,20 @@ class_name Player
 var timeMoving : float = 0
 var scaleFactor : float = 1 : set = changeScaleFactor
 
+var shaderMat : ShaderMaterial
+
 func _ready():
 	scaleFactor = 1 #To make sure that the setget runs (We don't have a size score of 0)
+	shaderMat = sprite.material
+	Signal_bus.usedOvercharge.connect(notOvercharged)
 
 func _unhandled_input(event):
 	if event.is_action_pressed("overcharge") and scaleFactor > 0.2:
 		#TODO: Add in overcharge particle effects here
 		scaleFactor -= 1
 		Signal_bus.overcharged.emit()
+		shaderMat.set_shader_parameter("on", true)
+		Signal_bus.shakeCam.emit(30, 5)
 
 func _physics_process(delta):
 	
@@ -59,6 +66,8 @@ func changeScaleFactor(newFactor : float):
 	newShape.size = Vector2(originalSize.x * scaleFactor, originalSize.y * scaleFactor)
 	collisionShape.shape = newShape
 
+func notOvercharged():
+	shaderMat.set_shader_parameter("on", false)
 
 func _on_health_dead():
 	deathMenu.show()
