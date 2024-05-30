@@ -45,4 +45,5 @@ func displayNumber(value : int, position : Vector2, isCritical : bool = false):
 	).set_ease(Tween.EASE_IN).set_delay(0.5)
 	
 	await tween.finished
-	number.queue_free()
+	if is_instance_valid(number):
+		number.queue_free()

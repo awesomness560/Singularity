@@ -132,6 +132,7 @@ position = Vector2(1057, -10.5)
 shape = SubResource("RectangleShape2D_eqfar")
 
 [node name="Health" parent="." node_paths=PackedStringArray("healthBar", "damageNumberOrigin") instance=ExtResource("6_k0rty")]
+maxHealth = 2
 healthBar = NodePath("../HUD/HealthBar")
 damageNumberOrigin = NodePath("../DamageNumbersOrigin")
 

@@ -12,7 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qskop")
-mainMenu = ExtResource("2_nk6dl")
+men = ExtResource("2_nk6dl")
 enemyScoreLabel = NodePath("ScoreContainer/EnemyScoreLabel")
 sizeScoreLabel = NodePath("ScoreContainer/SizeScore")
 
@@ -67,6 +67,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.352941, 0.180392, 0.152941, 0.47451)
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

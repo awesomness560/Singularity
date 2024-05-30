@@ -30,4 +30,5 @@ func _on_spawn_timer_timeout():
 	if len(nearby) > 0:
 		var scrawlerInstance = Scrawler.instantiate()
 		scrawlerInstance.global_position = self.global_position
-		get_tree().root.add_child(scrawlerInstance)
+		scrawlerInstance.top_level = true
+		add_child(scrawlerInstance)
