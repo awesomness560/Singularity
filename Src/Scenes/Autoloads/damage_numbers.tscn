@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2q8v8w3w3wum"]
+
+[ext_resource type="Script" path="res://Src/Scripts/AutoLoad/damage_numbers.gd" id="1_kuoxi"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1vmw6"]
+font_size = 30
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[node name="DamageNumbers" type="Node"]
+script = ExtResource("1_kuoxi")
+criticalFontColor = Color(1, 0, 0, 1)
+labelSettings = SubResource("LabelSettings_1vmw6")

@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c2b5m48okeosd"]
+[gd_scene load_steps=6 format=3 uid="uid://c2b5m48okeosd"]
 
+[ext_resource type="PackedScene" uid="uid://dxalhm18pgrig" path="res://Src/Scenes/Player/player.tscn" id="1_ag3nh"]
 [ext_resource type="PackedScene" uid="uid://do8ympc0wmpnl" path="res://Src/Scenes/Enemies/Scrawler/Scrawler.tscn" id="2_boyhg"]
 [ext_resource type="PackedScene" uid="uid://bef4ouefxrti" path="res://Src/Scenes/Particles/Quark/Quark_particle.tscn" id="3_y1awf"]
-[ext_resource type="PackedScene" uid="uid://c6jf1kb5bfh54" path="res://Src/Scenes/Player/player.tscn" id="4_68qai"]
-[ext_resource type="PackedScene" uid="uid://b0cm8016fqn3r" path="res://Src/Scenes/Enemies/Sek'yi/Sek'yi.tscn" id="4_axb8i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b4yoc"]
 size = Vector2(527, 60)
@@ -38,13 +37,11 @@ color = Color(0, 0, 0, 1)
 position = Vector2(813, 30)
 shape = SubResource("RectangleShape2D_l8j0l")
 
+[node name="Player" parent="." instance=ExtResource("1_ag3nh")]
+position = Vector2(836, 535)
+
 [node name="Scrawler" parent="." instance=ExtResource("2_boyhg")]
 position = Vector2(523, 260)
 
 [node name="QuarkParticle" parent="." instance=ExtResource("3_y1awf")]
 position = Vector2(1011, 405)
-
-[node name="Sek\'yi" parent="." instance=ExtResource("4_axb8i")]
-position = Vector2(1051, 414)
-
-[node name="Player" parent="." instance=ExtResource("4_68qai")]

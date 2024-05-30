@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7h16k7uitujt"]
+[gd_scene load_steps=5 format=3 uid="uid://b7h16k7uitujt"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Other/biome.gd" id="1_ip82g"]
+[ext_resource type="PackedScene" uid="uid://b0cm8016fqn3r" path="res://Src/Scenes/Enemies/Sek'yi/Sek'yi.tscn" id="2_eorqq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3lgmf"]
 size = Vector2(527, 60)
@@ -42,4 +43,7 @@ shape = SubResource("RectangleShape2D_un1vl")
 position = Vector2(-2, 665)
 
 [node name="EndingMarker" type="Marker2D" parent="."]
-position = Vector2(1153, 665)
+position = Vector2(1150, 665)
+
+[node name="Sek\'yi" parent="." instance=ExtResource("2_eorqq")]
+position = Vector2(978, 472)

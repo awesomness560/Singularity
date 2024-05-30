@@ -1,0 +1,134 @@
+[gd_scene load_steps=16 format=3 uid="uid://cw3f3cyiklgnl"]
+
+[ext_resource type="Script" path="res://Src/Scripts/Player/playerDoge.gd" id="1_jwuab"]
+[ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="2_pjooa"]
+[ext_resource type="Texture2D" uid="uid://b065kjmdbtwud" path="res://Src/Assets/Player/slime_sprite_sheet.png" id="3_rqon4"]
+[ext_resource type="Texture2D" uid="uid://cv1txvjyevrfr" path="res://Src/Assets/Enemies/Scrawler/Scrawler_Melee_particle.png" id="4_cqnvs"]
+[ext_resource type="Script" path="res://Src/Scripts/Modules/health_module.gd" id="5_h08el"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aeaqp"]
+atlas = ExtResource("3_rqon4")
+region = Rect2(0, 0, 1024, 1000)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36ahv"]
+atlas = ExtResource("3_rqon4")
+region = Rect2(1024, 0, 1024, 1000)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmas2"]
+atlas = ExtResource("3_rqon4")
+region = Rect2(0, 1000, 1024, 1000)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qis3o"]
+atlas = ExtResource("3_rqon4")
+region = Rect2(1024, 1000, 1024, 1000)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqkhe"]
+atlas = ExtResource("3_rqon4")
+region = Rect2(0, 2000, 1024, 1000)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7abih"]
+atlas = ExtResource("3_rqon4")
+region = Rect2(1024, 2000, 1024, 1000)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xawlo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aeaqp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36ahv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pmas2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qis3o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqkhe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7abih")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ilbhh"]
+size = Vector2(148, 98)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ktwpq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tcqjb"]
+radius = 75.0267
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 3
+script = ExtResource("1_jwuab")
+
+[node name="Movement" type="Node" parent="." node_paths=PackedStringArray("player", "sprite")]
+script = ExtResource("2_pjooa")
+player = NodePath("..")
+max_jump_height = 250.0
+sprint_acceleration = 10000
+sprite = NodePath("../AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(3.8147e-06, 1)
+scale = Vector2(0.2255, 0.2255)
+sprite_frames = SubResource("SpriteFrames_xawlo")
+frame = 4
+frame_progress = 0.58142
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 8)
+shape = SubResource("RectangleShape2D_ilbhh")
+
+[node name="RadiationBlastArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RadiationBlastArea"]
+shape = SubResource("CircleShape2D_ktwpq")
+disabled = true
+
+[node name="RadiationParticles" type="CPUParticles2D" parent="RadiationBlastArea"]
+emitting = false
+amount = 100
+texture = ExtResource("4_cqnvs")
+emission_shape = 2
+emission_sphere_radius = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 65.66
+initial_velocity_max = 161.62
+orbit_velocity_min = 1.0
+orbit_velocity_max = 2.0
+radial_accel_max = 20.2
+color = Color(0.0541422, 0.0541422, 0.0541422, 1)
+hue_variation_min = -0.56
+hue_variation_max = 0.68
+
+[node name="RadiationMoveTimer" type="Timer" parent="RadiationBlastArea"]
+wait_time = 0.1
+autostart = true
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("5_h08el")
+
+[node name="ParticleCollector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParticleCollector"]
+shape = SubResource("CircleShape2D_tcqjb")
+
+[connection signal="body_entered" from="RadiationBlastArea" to="." method="_on_radiation_blast_area_body_entered"]
+[connection signal="body_exited" from="RadiationBlastArea" to="." method="_on_radiation_blast_area_body_exited"]
+[connection signal="timeout" from="RadiationBlastArea/RadiationMoveTimer" to="." method="_on_radiation_move_timer_timeout"]
+[connection signal="area_entered" from="ParticleCollector" to="." method="_on_particle_collector_area_entered"]

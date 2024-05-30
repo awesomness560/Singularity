@@ -1,0 +1,118 @@
+[gd_scene load_steps=14 format=3 uid="uid://b0cm8016fqn3r"]
+
+[ext_resource type="Script" path="res://Src/Scripts/Enemies/Sek'yi/Sek'yi.gd" id="1_1uiw4"]
+[ext_resource type="Texture2D" uid="uid://cv1txvjyevrfr" path="res://Src/Assets/Enemies/Scrawler/Scrawler_Melee_particle.png" id="1_c34sh"]
+[ext_resource type="Texture2D" uid="uid://cjyoa5nwjsx5y" path="res://Src/Assets/Enemies/Sek'yi/sek'yi.png" id="2_3h3o5"]
+[ext_resource type="PackedScene" uid="uid://bwj8odndeofvj" path="res://Src/Scenes/Player/health_bar.tscn" id="4_2hudr"]
+[ext_resource type="Script" path="res://Src/Scripts/Modules/health_module.gd" id="5_4lycb"]
+[ext_resource type="Script" path="res://Src/Scripts/Enemies/drop_item.gd" id="6_n7pnm"]
+[ext_resource type="PackedScene" uid="uid://cwl025fj100o" path="res://Src/Scenes/Enemies/pickup.tscn" id="7_d6imh"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oxtse"]
+radius = 1.0
+height = 346.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fyttr"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_c6ffe"]
+material = SubResource("StandardMaterial3D_fyttr")
+size = Vector3(100, 100, 1)
+
+[sub_resource type="Gradient" id="Gradient_drm2i"]
+interpolation_mode = 2
+interpolation_color_space = 2
+offsets = PackedFloat32Array(0.00324675, 0.103896, 1)
+colors = PackedColorArray(0.647059, 0, 1, 1, 0.647059, 0, 1, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_83fg3"]
+gradient = SubResource("Gradient_drm2i")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_we031"]
+radius = 25.0799
+
+[node name="Sek\'yi" type="CharacterBody2D"]
+scale = Vector2(2, 2)
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_1uiw4")
+
+[node name="Sek\'yi" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_3h3o5")
+
+[node name="NearbyArea" type="Area2D" parent="Sek\'yi"]
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sek\'yi/NearbyArea"]
+position = Vector2(-182.5, 14)
+rotation = 1.51275
+shape = SubResource("CapsuleShape2D_oxtse")
+
+[node name="FloatingParticles" type="CPUParticles2D" parent="Sek\'yi"]
+position = Vector2(28, 16)
+rotation = 0.554801
+amount = 100
+texture = ExtResource("1_c34sh")
+spread = 11.36
+gravity = Vector2(0, 0)
+initial_velocity_min = 146.46
+initial_velocity_max = 146.46
+scale_amount_min = 0.01
+scale_amount_max = 0.8
+color = Color(0, 0.64456, 0.259219, 1)
+
+[node name="Antenna_Particles" type="CPUParticles2D" parent="Sek\'yi"]
+position = Vector2(8, -29)
+amount = 50
+texture = ExtResource("1_c34sh")
+emission_shape = 2
+emission_sphere_radius = 25.31
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 181.82
+initial_velocity_max = 181.82
+orbit_velocity_max = 20.0
+scale_amount_min = 0.1
+scale_amount_max = 0.5
+color = Color(0, 0.7601, 0.432964, 1)
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Sek\'yi"]
+modulate = Color(1, 0, 0.137255, 0.129412)
+position = Vector2(-179, 18)
+rotation = -1.64522
+scale = Vector2(0.250451, 3.25784)
+mesh = SubResource("PrismMesh_c6ffe")
+texture = SubResource("GradientTexture1D_83fg3")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_we031")
+
+[node name="HealthBar" parent="." instance=ExtResource("4_2hudr")]
+offset_left = -115.5
+offset_top = -51.0
+offset_right = 124.5
+offset_bottom = -41.0
+
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("healthBar", "damageNumberOrigin")]
+script = ExtResource("5_4lycb")
+maxHealth = 20
+healthBar = NodePath("../HealthBar")
+damageNumberOrigin = NodePath("../DamageNumberOrigin")
+
+[node name="DropItem" type="Node2D" parent="." node_paths=PackedStringArray("healthNode")]
+script = ExtResource("6_n7pnm")
+healthNode = NodePath("../Health")
+pickupScene = ExtResource("7_d6imh")
+
+[node name="DamageNumberOrigin" type="Node2D" parent="."]
+
+[connection signal="body_entered" from="Sek\'yi/NearbyArea" to="." method="_on_nearby_area_body_entered"]
+[connection signal="body_exited" from="Sek\'yi/NearbyArea" to="." method="_on_nearby_area_body_exited"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

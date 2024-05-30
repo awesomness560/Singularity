@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwl025fj100o"]
+
+[ext_resource type="Script" path="res://Src/Scripts/Enemies/pickup.gd" id="1_isrh5"]
+[ext_resource type="Texture2D" uid="uid://ds2auwkawtpcw" path="res://Src/Assets/Enemies/orb.webp" id="2_urgll"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bo6kd"]
+radius = 26.0192
+
+[node name="Pickup" type="Node2D"]
+script = ExtResource("1_isrh5")
+
+[node name="Orb" type="Sprite2D" parent="."]
+scale = Vector2(0.18, 0.18)
+texture = ExtResource("2_urgll")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_bo6kd")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

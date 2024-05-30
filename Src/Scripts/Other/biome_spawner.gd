@@ -20,7 +20,7 @@ func _ready():
 	#previousBiome = spawnBiome(biomeResource)
 	#spawnBiome(biomeResource, previousBiome)
 
-func spawnBiome(biomeResource : BiomeResource, prevBiome : Biome = null) -> Biome:
+func spawnBiome(biomeResource : BiomeResource, prevBiome : Biome = null) -> Biome: #HACK: We probably shouldn't spawn in the entire level at once for performance reason
 	var biome : Biome = biomeResource.biomeScene.instantiate()
 	add_child(biome)
 	

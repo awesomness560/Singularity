@@ -2,44 +2,57 @@ extends CharacterBody2D
 
 
 const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+@export var damager : Node 
 var nearby = []
-
-@onready var ScrawlerMelee = preload("res://Src/Scenes/Enemies/Scrawler/Attacks/Scrawler_Melee.tscn")
-
+#Used for freeing the scrawler from a stuck position
+var lastPosition = self.global_position
+var lastRotation = self.global_rotation
+var stuck = false
+var attacking = false
 func _physics_process(delta):
 	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += gravity * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
-	move_and_slide()
+	if len(nearby) > 0 and !stuck:
+		self.global_rotation += (self.get_angle_to(nearby[0].global_position))*.1
+		velocity = Vector2(8,0).rotated(global_rotation)
+	move_and_collide(velocity)
+	
+#180 rotation if stuck in same position
+func _check_stuck(last_position):
+	if self.global_position.distance_to(last_position) < 20:
+		stuck = true
+		self.global_rotation = lastRotation+PI
+		velocity = Vector2(5,0).rotated(global_rotation)
 
 #Nearby enters
 func _on_area_2d_body_entered(body):
 	if body not in nearby:
 		nearby.append(body)
-
+		
 #Nearby exits
 func _on_area_2d_body_exited(body):
 	if body in nearby:
-		nearby.remove(body)
+		nearby.erase(body)
 
-func _Melee_Attack(target):
-	var attack = ScrawlerMelee.instantiate()
-	self.add_child(attack)
-	attack.rotate_toward(target)
+
+func _on_scrawler_melee_area_body_entered(body):
+	attacking = true
+	$ScrawlerMeleeArea/MeleeParticles.emitting = true
+	$ScrawlerMeleeArea/ColorRect.color = Color8(255,0,0,255)
+	damager.dealDamage(body)
+
+
+func _on_scrawler_melee_area_body_exited(body):
+	if attacking:
+		attacking = false
+		$ScrawlerMeleeArea/ColorRect.color = Color8(255,255,255,255)
+		pass
+
+
+func _on_last_pos_rot_timer_timeout():
+	if self.global_position.distance_to(lastPosition) < 10:
+		_check_stuck(lastPosition)
+	else:
+		stuck = false
+	lastPosition = self.global_position
+	lastRotation = self.global_rotation
+	
