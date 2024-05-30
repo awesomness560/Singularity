@@ -1,0 +1,78 @@
+[gd_scene load_steps=5 format=3 uid="uid://cthfstrenrwwf"]
+
+[ext_resource type="Script" path="res://Src/Scripts/Other/biome.gd" id="1_c14tm"]
+[ext_resource type="PackedScene" uid="uid://b0cm8016fqn3r" path="res://Src/Scenes/Enemies/Sek'yi/Sek'yi.tscn" id="1_ffous"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ikmfv"]
+size = Vector2(527, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mgwsa"]
+size = Vector2(1153, 60)
+
+[node name="BasicLevel1" type="Node2D" node_paths=PackedStringArray("startingMarker", "endingMarker")]
+script = ExtResource("1_c14tm")
+startingMarker = NodePath("StartingMarker")
+endingMarker = NodePath("EndingMarker")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 9.0
+offset_top = 442.0
+offset_right = 536.0
+offset_bottom = 502.0
+scale = Vector2(0.5122, 1.05552)
+color = Color(0.841263, 0.284531, 0, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ColorRect"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/StaticBody2D"]
+position = Vector2(263.5, 30)
+shape = SubResource("RectangleShape2D_ikmfv")
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+offset_left = 423.0
+offset_top = 313.0
+offset_right = 950.0
+offset_bottom = 373.0
+scale = Vector2(0.5122, 1.05552)
+color = Color(0.841263, 0.284531, 0, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ColorRect3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect3/StaticBody2D"]
+position = Vector2(263.5, 30)
+shape = SubResource("RectangleShape2D_ikmfv")
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+offset_left = 828.0
+offset_top = 153.0
+offset_right = 1355.0
+offset_bottom = 213.0
+scale = Vector2(0.5122, 1.05552)
+color = Color(0.841263, 0.284531, 0, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ColorRect4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect4/StaticBody2D"]
+position = Vector2(263.5, 30)
+shape = SubResource("RectangleShape2D_ikmfv")
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_top = 631.0
+offset_right = 1153.0
+offset_bottom = 691.0
+color = Color(0, 0, 0, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ColorRect2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect2/StaticBody2D"]
+position = Vector2(576.5, 30)
+shape = SubResource("RectangleShape2D_mgwsa")
+
+[node name="StartingMarker" type="Marker2D" parent="."]
+position = Vector2(-2, 665)
+
+[node name="EndingMarker" type="Marker2D" parent="."]
+position = Vector2(1150, 665)
+
+[node name="Sek\'yi" parent="." instance=ExtResource("1_ffous")]
+position = Vector2(978, 472)

@@ -1,25 +1,26 @@
-[gd_scene load_steps=14 format=3 uid="uid://do8ympc0wmpnl"]
+[gd_scene load_steps=15 format=3 uid="uid://do8ympc0wmpnl"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Enemies/Scrawler/Scrawler.gd" id="1_c1coi"]
-[ext_resource type="Texture2D" uid="uid://dhnhoky3nww2n" path="res://Src/Assets/Enemies/Scrawler/Scrawler (1).png" id="2_qjlye"]
+[ext_resource type="Texture2D" uid="uid://b2wcqlgwpcokr" path="res://Src/Assets/Enemies/Scrawler/Scrawler_0.png" id="2_atk0m"]
 [ext_resource type="Texture2D" uid="uid://cv1txvjyevrfr" path="res://Src/Assets/Enemies/Scrawler/Scrawler_Melee_particle.png" id="2_s4mkh"]
 [ext_resource type="Script" path="res://Src/Scripts/Modules/health_module.gd" id="3_28bxb"]
-[ext_resource type="Texture2D" uid="uid://caj57df0xlrfl" path="res://Src/Assets/Enemies/Scrawler/Scrawler (2).png" id="3_fwpik"]
-[ext_resource type="Texture2D" uid="uid://c6anfgq7ebh55" path="res://Src/Assets/Enemies/Scrawler/Scrawler (3).png" id="4_p5i6c"]
+[ext_resource type="Texture2D" uid="uid://buvl6cr6yutgc" path="res://Src/Assets/Enemies/Scrawler/Scrawler_1.png" id="3_idopg"]
+[ext_resource type="Texture2D" uid="uid://d2yqbr7qp8ioo" path="res://Src/Assets/Enemies/Scrawler/Scrawler_2.png" id="4_xvlcs"]
 [ext_resource type="Script" path="res://Src/Scripts/Enemies/drop_item.gd" id="7_0hosp"]
 [ext_resource type="PackedScene" uid="uid://cwl025fj100o" path="res://Src/Scenes/Enemies/pickup.tscn" id="8_enld8"]
+[ext_resource type="Script" path="res://Src/Scripts/Modules/damager.gd" id="9_qim07"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_utxdm"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_qjlye")
+"texture": ExtResource("2_atk0m")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_fwpik")
+"texture": ExtResource("3_idopg")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_p5i6c")
+"texture": ExtResource("4_xvlcs")
 }],
 "loop": true,
 "name": &"default",
@@ -39,11 +40,12 @@ size = Vector2(126.5, 47)
 _data = [Vector2(0, 1), 0.0, -2.37086, 0, 1, Vector2(0.421788, 0), -2.37086, 0.0, 1, 0]
 point_count = 2
 
-[node name="Scrawler" type="CharacterBody2D"]
+[node name="Scrawler" type="CharacterBody2D" node_paths=PackedStringArray("damager")]
 collision_layer = 2
 collision_mask = 0
 motion_mode = 1
 script = ExtResource("1_c1coi")
+damager = NodePath("Damager")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_utxdm")
@@ -56,7 +58,6 @@ shape = SubResource("RectangleShape2D_tb3jb")
 
 [node name="Nearby" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nearby"]
@@ -64,7 +65,6 @@ shape = SubResource("CircleShape2D_hkf2f")
 
 [node name="ScrawlerMeleeArea" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScrawlerMeleeArea"]
@@ -117,6 +117,10 @@ damageNumberOrigin = NodePath("../DamageNumberOrigin")
 script = ExtResource("7_0hosp")
 healthNode = NodePath("../Health")
 pickupScene = ExtResource("8_enld8")
+
+[node name="Damager" type="Node" parent="."]
+script = ExtResource("9_qim07")
+baseDamage = 2
 
 [connection signal="body_entered" from="Nearby" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Nearby" to="." method="_on_area_2d_body_exited"]

@@ -43,7 +43,7 @@ shape = SubResource("RectangleShape2D_un1vl")
 position = Vector2(-2, 665)
 
 [node name="EndingMarker" type="Marker2D" parent="."]
-position = Vector2(1153, 665)
+position = Vector2(1150, 665)
 
 [node name="Sek\'yi" parent="." instance=ExtResource("2_eorqq")]
 position = Vector2(978, 472)
