@@ -1,8 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://c6jf1kb5bfh54"]
+[gd_scene load_steps=23 format=3 uid="uid://c6jf1kb5bfh54"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_pce26"]
 [ext_resource type="Texture2D" uid="uid://b065kjmdbtwud" path="res://Src/Assets/Player/slime_sprite_sheet.png" id="2_41mqq"]
+[ext_resource type="PackedScene" uid="uid://d2pownynoo8qt" path="res://Src/Scenes/UI/timer.tscn" id="3_lvp3y"]
+[ext_resource type="PackedScene" uid="uid://gfbovowisrme" path="res://Src/Scenes/UI/death_menu.tscn" id="4_brw8y"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_camera.gd" id="4_sgymo"]
 [ext_resource type="Script" path="res://Src/Scripts/Modules/health_module.gd" id="5_w7ke5"]
 [ext_resource type="PackedScene" uid="uid://bwj8odndeofvj" path="res://Src/Scenes/Player/health_bar.tscn" id="6_lmt8k"]
@@ -70,17 +72,26 @@ size = Vector2(312, 1307)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eqfar"]
 size = Vector2(191, 1333)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cameraTarget", "collisionShape", "scalableProperty")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cameraTarget", "collisionShape", "scalableProperty", "deathMenu")]
 script = ExtResource("1_pce26")
 cameraTarget = NodePath("CameraTarget")
 collisionShape = NodePath("CollisionShape2D")
 scalableProperty = NodePath("AnimatedSprite2D")
+deathMenu = NodePath("HUD/DeathMenu")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="HealthBar" parent="HUD" instance=ExtResource("6_lmt8k")]
 offset_right = 542.0
 offset_bottom = 26.0
+
+[node name="Timer" parent="HUD" instance=ExtResource("3_lvp3y")]
+offset_left = 944.0
+offset_bottom = -614.0
+
+[node name="DeathMenu" parent="HUD" instance=ExtResource("4_brw8y")]
+process_mode = 3
+visible = false
 
 [node name="Movement" type="Node" parent="." node_paths=PackedStringArray("player", "sprite")]
 script = ExtResource("1_hgxmi")
@@ -129,6 +140,7 @@ position = Vector2(22, -14)
 
 [node name="Damager" type="Node" parent="."]
 script = ExtResource("7_mogai")
+baseDamage = 100
 
 [node name="AbilityManager" type="Node2D" parent="." node_paths=PackedStringArray("aimRotator")]
 script = ExtResource("8_jhk7i")
@@ -149,3 +161,4 @@ texture = ExtResource("10_gcncu")
 
 [connection signal="body_entered" from="CameraTarget/Camera2D/Area2D" to="CameraTarget/Camera2D" method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="CameraTarget/Camera2D/Area2D" to="CameraTarget/Camera2D" method="_on_area_2d_area_exited"]
+[connection signal="dead" from="Health" to="." method="_on_health_dead"]
