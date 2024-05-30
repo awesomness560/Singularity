@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://de8dicwt413wk"]
+
+[ext_resource type="Script" path="res://Src/Scripts/Modules/health_module.gd" id="1_x0hdk"]
+
+[node name="Health" type="Node" node_paths=PackedStringArray("healthBar", "damageNumberOrigin")]
+script = ExtResource("1_x0hdk")
+healthBar = NodePath("")
+damageNumberOrigin = NodePath("")
