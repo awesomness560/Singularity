@@ -48,7 +48,7 @@ script = ExtResource("1_c1coi")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_utxdm")
 autoplay = "default"
-frame_progress = 0.00125832
+frame_progress = 0.811477
 speed_scale = 3.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -108,6 +108,7 @@ autostart = true
 
 [node name="Health" type="Node" parent="." node_paths=PackedStringArray("damageNumberOrigin")]
 script = ExtResource("3_28bxb")
+maxHealth = 5
 damageNumberOrigin = NodePath("../DamageNumberOrigin")
 
 [node name="DamageNumberOrigin" type="Node2D" parent="."]
