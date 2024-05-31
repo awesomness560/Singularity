@@ -6,12 +6,13 @@ var tween : Tween = Tween.new()
 
 var isCasting := false : set = set_is_casting
 @export var beamSize : float = 10
+@export var energyConsumptionRate : float = 50
 
 
 var collisionBody
 var isFiring : bool = false
 var initalShot : bool = true
-var onCooldown : bool = true
+var onCooldown : bool = false
 var isOvercharged : bool = false : set = setOvercharge
 
 @onready var originalCritRate : float = damageNode.critRate / 100
@@ -35,12 +36,20 @@ func _ready():
 	
 	cooldownTimer.start()
 	Signal_bus.overcharged.connect(overcharge)
+	Signal_bus.usedOvercharge.connect(notOvercharged)
 
 func _unhandled_input(event):
-	if event.is_action_pressed("use_ability_1") and not onCooldown:
-		_on_auto_activation_time_timeout()
+	if event.is_action_pressed("use_ability_1") and GlobalVars.playerEnergy > 0:
+		#_on_auto_activation_time_timeout()
+		isCasting = true
+	else:
+		if event.is_action_released("use_ability_1"):
+			isCasting = false
 
 func _physics_process(delta):
+	if GlobalVars.playerEnergy <= 0:
+		isCasting = false
+	
 	var castPoint := target_position
 	force_shapecast_update()
 	
@@ -66,6 +75,8 @@ func _physics_process(delta):
 		damageRate.start()
 		damageNode.dealDamage(collisionBody)
 		initalShot = false
+	
+	GlobalVars.playerEnergy -= energyConsumptionRate * delta
 	
 func set_is_casting(cast : bool):
 	isCasting = cast
@@ -93,10 +104,12 @@ func setOvercharge(status : bool):
 		damageNode.critRate = 1
 	else:
 		damageNode.critRate = originalCritRate
-		Signal_bus.usedOvercharge.emit()
 
 func overcharge():
 	isOvercharged = true
+
+func notOvercharged():
+	isOvercharged = false
 
 func appear():
 	tween.kill()
@@ -116,27 +129,27 @@ func _on_damage_rate_timeout():
 		damageNode.dealDamage(collisionBody)
 
 
-func _on_cooldown_timeout():
-	onCooldown = false
-	activationTimer.start()
-	$CastingParticles.emitting = true
-
-func enterCooldown():
-	isCasting = false
-	onCooldown = true
-	cooldownTimer.start()
-
-func _on_max_activation_time_timeout():
-	isCasting = false
-	onCooldown = true
-	cooldownTimer.start()
-	
-	isOvercharged = false
-
-
-func _on_auto_activation_time_timeout():
-	isCasting = true
-	maxActivationTimer.start()
+#func _on_cooldown_timeout():
+	#onCooldown = false
+	#activationTimer.start()
+	#$CastingParticles.emitting = true
+#
+#func enterCooldown():
+	#isCasting = false
+	#onCooldown = true
+	#cooldownTimer.start()
+#
+#func _on_max_activation_time_timeout():
+	#isCasting = false
+	#onCooldown = true
+	#cooldownTimer.start()
+	#
+	#isOvercharged = false
+#
+#
+#func _on_auto_activation_time_timeout():
+	#isCasting = true
+	#maxActivationTimer.start()
 
 #func levelUp(): ##Must Implement
 	#var upgradeResource : LaserResource = levels[level - 1]

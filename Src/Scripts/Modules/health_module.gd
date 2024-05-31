@@ -8,10 +8,16 @@ signal dead
 @export_group("References")
 @export var healthBar : HealthBar
 @export var damageNumberOrigin : Node2D ##A Node2d containing the position of where the damage numbers should spawn (PLEASE SET)
+@export var healthLab : ScoreLabel ##The health label
 var health : float #The current health of the object
 
 func _ready():
 	health = maxHealth #Setting the current health to the max health
+	
+	if healthLab:
+		healthLab.initScore(maxHealth)
+		healthLab.lerpStep = 0.05
+	#healthLab.initScore(health)
 	if healthBar:
 		healthBar.init_health(maxHealth)
 	
@@ -21,6 +27,7 @@ func _ready():
 func lowerHealth(damage : float, isCrit : bool = false):
 	if !isInvulnerable:
 		health -= damage #Reduces current health by specfied amount
+		setHealth(health)
 		if damageNumberOrigin:
 			if isCrit:
 				DamageNumbers.displayNumber(damage, damageNumberOrigin.global_position, true)
@@ -34,6 +41,7 @@ func lowerHealth(damage : float, isCrit : bool = false):
 
 func increaseHealth(heal : float):
 	health += heal #Increases current health by heal amount
+	setHealth(health)
 	if healthBar:
 		healthBar.health = health
 	if health > maxHealth: #Checks if the heal makes the health go over max health
@@ -41,3 +49,9 @@ func increaseHealth(heal : float):
 
 func changeMaxHealth(change : int): #Changes the max health
 	maxHealth = change
+
+func setHealth(healthAmount : float):
+	health = healthAmount
+	
+	if healthLab:
+		healthLab.score_event(healthAmount, true)

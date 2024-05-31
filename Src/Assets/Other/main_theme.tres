@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://boq2f86ty0hpo"]
 
-[ext_resource type="FontFile" uid="uid://e5ehfll4r0b3" path="res://Src/Assets/Other/DungeonFont.ttf" id="1_3c6j8"]
+[ext_resource type="FontFile" uid="uid://bgr3v8uudtp16" path="res://Src/Assets/Other/Montreal-Regular.ttf" id="1_1nmj2"]
 
 [resource]
-default_font = ExtResource("1_3c6j8")
+default_font = ExtResource("1_1nmj2")

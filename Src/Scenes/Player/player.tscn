@@ -1,19 +1,25 @@
-[gd_scene load_steps=27 format=3 uid="uid://c6jf1kb5bfh54"]
+[gd_scene load_steps=32 format=3 uid="uid://c6jf1kb5bfh54"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_pce26"]
 [ext_resource type="Texture2D" uid="uid://b065kjmdbtwud" path="res://Src/Assets/Player/slime_sprite_sheet.png" id="2_41mqq"]
-[ext_resource type="PackedScene" path="res://Src/Scenes/UI/timer.tscn" id="3_lvp3y"]
+[ext_resource type="PackedScene" uid="uid://d2pownynoo8qt" path="res://Src/Scenes/UI/timer.tscn" id="3_lvp3y"]
 [ext_resource type="PackedScene" uid="uid://gfbovowisrme" path="res://Src/Scenes/UI/death_menu.tscn" id="4_brw8y"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_camera.gd" id="4_sgymo"]
 [ext_resource type="Shader" path="res://Src/Assets/Shaders/vignette.gdshader" id="5_uj3y3"]
+[ext_resource type="PackedScene" uid="uid://ha7845wjsxme" path="res://Src/Scenes/Player/energy_bar.tscn" id="6_hwgg6"]
 [ext_resource type="PackedScene" uid="uid://de8dicwt413wk" path="res://Src/Scenes/Other/health.tscn" id="6_k0rty"]
 [ext_resource type="PackedScene" uid="uid://bwj8odndeofvj" path="res://Src/Scenes/Player/health_bar.tscn" id="6_lmt8k"]
 [ext_resource type="Shader" path="res://Src/Assets/Shaders/overcharge.gdshader" id="7_g7wu6"]
 [ext_resource type="Script" path="res://Src/Scripts/Modules/damager.gd" id="7_mogai"]
+[ext_resource type="Theme" uid="uid://boq2f86ty0hpo" path="res://Src/Assets/Other/main_theme.tres" id="7_y66l1"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/ability_manager.gd" id="8_jhk7i"]
+[ext_resource type="Script" path="res://Src/Scripts/UI/score_counter.gd" id="8_uhi60"]
 [ext_resource type="PackedScene" uid="uid://jjyga60mn7wj" path="res://Src/Scenes/Abilities/Laser.tscn" id="9_g3idi"]
 [ext_resource type="Texture2D" uid="uid://15d4enbdexwl" path="res://Src/Assets/Other/arrow.png" id="10_gcncu"]
+[ext_resource type="Script" path="res://Src/Scripts/Player/energy_module.gd" id="16_1jukj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3t5hq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u420x"]
 shader = ExtResource("5_uj3y3")
@@ -90,20 +96,34 @@ size = Vector2(312, 1307)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eqfar"]
 size = Vector2(191, 1333)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cameraTarget", "collisionShape", "scalableProperty", "deathMenu", "sprite")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cameraTarget", "collisionShape", "scalableProperty", "deathMenu", "sprite", "overchargedTimer", "healthModule", "healthBar")]
 script = ExtResource("1_pce26")
+scaleFactorMultiplier = 20.0
 cameraTarget = NodePath("CameraTarget")
 collisionShape = NodePath("CollisionShape2D")
 scalableProperty = NodePath("PlayerSprite")
 deathMenu = NodePath("HUD/DeathMenu")
 sprite = NodePath("PlayerSprite")
+overchargedTimer = NodePath("OverchargedDuration")
+healthModule = NodePath("Health")
+healthBar = NodePath("HUD/HealthBar")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="HealthBar" parent="HUD" instance=ExtResource("6_lmt8k")]
-offset_right = 542.0
-offset_bottom = 26.0
-metadata/_edit_use_anchors_ = true
+process_mode = 3
+material = SubResource("ShaderMaterial_3t5hq")
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -555.0
+offset_top = -33.0
+offset_right = -124.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="Timer" parent="HUD" instance=ExtResource("3_lvp3y")]
 offset_left = 944.0
@@ -114,6 +134,7 @@ process_mode = 3
 visible = false
 
 [node name="ColorRect" type="ColorRect" parent="HUD"]
+visible = false
 z_index = 1
 material = SubResource("ShaderMaterial_u420x")
 anchors_preset = 15
@@ -122,6 +143,41 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="EnergyBar" parent="HUD" instance=ExtResource("6_hwgg6")]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -508.0
+offset_top = -32.0
+offset_right = -20.0
+offset_bottom = -18.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="HealthLabel" type="Label" parent="HUD"]
+offset_left = 25.0
+offset_top = 552.0
+offset_right = 96.0
+offset_bottom = 602.0
+theme = ExtResource("7_y66l1")
+theme_override_colors/font_color = Color(3, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "100"
+script = ExtResource("8_uhi60")
+
+[node name="EnergyLabel" type="Label" parent="HUD"]
+offset_left = 1055.0
+offset_top = 552.0
+offset_right = 1126.0
+offset_bottom = 602.0
+theme = ExtResource("7_y66l1")
+theme_override_colors/font_color = Color(0, 0, 0.588235, 1)
+theme_override_font_sizes/font_size = 40
+text = "100"
+script = ExtResource("8_uhi60")
 
 [node name="Movement" type="Node" parent="." node_paths=PackedStringArray("player", "sprite")]
 script = ExtResource("1_hgxmi")
@@ -161,10 +217,10 @@ shape = SubResource("RectangleShape2D_gkgaf")
 position = Vector2(1057, -10.5)
 shape = SubResource("RectangleShape2D_eqfar")
 
-[node name="Health" parent="." node_paths=PackedStringArray("healthBar", "damageNumberOrigin") instance=ExtResource("6_k0rty")]
-maxHealth = 20
+[node name="Health" parent="." node_paths=PackedStringArray("healthBar", "damageNumberOrigin", "healthLab") instance=ExtResource("6_k0rty")]
 healthBar = NodePath("../HUD/HealthBar")
 damageNumberOrigin = NodePath("../DamageNumbersOrigin")
+healthLab = NodePath("../HUD/HealthLabel")
 
 [node name="DamageNumbersOrigin" type="Node2D" parent="."]
 position = Vector2(22, -14)
@@ -189,6 +245,20 @@ position = Vector2(40, 0)
 rotation = 1.5708
 scale = Vector2(0.0673828, 0.0673828)
 texture = ExtResource("10_gcncu")
+
+[node name="EnergyModule" type="Node" parent="." node_paths=PackedStringArray("energyBar", "regenTimer", "energyLabel")]
+script = ExtResource("16_1jukj")
+energyBar = NodePath("../HUD/EnergyBar")
+regenTimer = NodePath("RegenTime")
+energyLabel = NodePath("../HUD/EnergyLabel")
+
+[node name="RegenTime" type="Timer" parent="EnergyModule"]
+wait_time = 2.0
+one_shot = true
+
+[node name="OverchargedDuration" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
 
 [connection signal="body_entered" from="CameraTarget/Camera2D/Area2D" to="CameraTarget/Camera2D" method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="CameraTarget/Camera2D/Area2D" to="CameraTarget/Camera2D" method="_on_area_2d_area_exited"]

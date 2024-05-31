@@ -2,21 +2,29 @@ extends Node2D
 
 @export_dir var biomeDirectory : String
 @export var biomesNumber : int = 3
+@export var lastBiome : BiomeResource
 
 var previousBiome : Biome
 var biomes : Array[BiomeResource]
 
+var rng = RandomNumberGenerator.new()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	rng.randomize()
+	
 	dir_contents(biomeDirectory + "/")
 	for i in biomesNumber:
-		var biomeResource : BiomeResource = biomes.pick_random()
+		var index : int = rng.randi_range(0, biomes.size() - 1)
+		
+		var biomeResource : BiomeResource = biomes[index]
 		
 		if i == 0:
 			previousBiome = spawnBiome(biomeResource)
 		else:
 			previousBiome = spawnBiome(biomeResource, previousBiome)
-	pass
+	
+	spawnBiome(lastBiome, previousBiome)
 	#previousBiome = spawnBiome(biomeResource)
 	#spawnBiome(biomeResource, previousBiome)
 
