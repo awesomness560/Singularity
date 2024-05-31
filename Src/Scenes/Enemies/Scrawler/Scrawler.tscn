@@ -48,6 +48,7 @@ script = ExtResource("1_c1coi")
 damager = NodePath("Damager")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_utxdm")
 autoplay = "default"
 frame_progress = 0.811477

@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://bw6recw7wnobq"]
+
+[ext_resource type="Script" path="res://Src/Scenes/Enemies/TimeLord/TimeLord.gd" id="1_6avyc"]
+[ext_resource type="Texture2D" uid="uid://crth8m7qim4ln" path="res://Src/Assets/Enemies/Time_Lord/Time_lord.png" id="1_dv0rw"]
+[ext_resource type="Texture2D" uid="uid://cv1txvjyevrfr" path="res://Src/Assets/Enemies/Scrawler/Scrawler_Melee_particle.png" id="2_tu8ax"]
+[ext_resource type="PackedScene" uid="uid://de8dicwt413wk" path="res://Src/Scenes/Other/health.tscn" id="3_xl3b0"]
+[ext_resource type="PackedScene" uid="uid://bwj8odndeofvj" path="res://Src/Scenes/Player/health_bar.tscn" id="4_50707"]
+
+[sub_resource type="Curve" id="Curve_yiiqr"]
+_data = [Vector2(0, 0.950594), 0.0, 0.0, 0, 0, Vector2(0.77095, 0), -3.19107, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_owvdh"]
+radius = 186.0
+height = 442.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vpnn8"]
+radius = 361.67
+
+[node name="TimeLord" type="CharacterBody2D"]
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_6avyc")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+texture_filter = 1
+amount = 10
+randomness = 1.0
+texture = ExtResource("2_tu8ax")
+emission_shape = 1
+emission_sphere_radius = 128.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 500.0
+initial_velocity_max = 732.32
+orbit_velocity_max = 5.0
+linear_accel_min = 16.16
+linear_accel_max = 16.16
+scale_amount_min = 20.0
+scale_amount_max = 41.4
+scale_amount_curve = SubResource("Curve_yiiqr")
+color = Color(1, 0, 0.305882, 1)
+
+[node name="TimeLord" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_dv0rw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(22, -18)
+shape = SubResource("CapsuleShape2D_owvdh")
+
+[node name="Health" parent="." node_paths=PackedStringArray("healthBar", "damageNumberOrigin") instance=ExtResource("3_xl3b0")]
+healthBar = NodePath("../HealthBar")
+damageNumberOrigin = NodePath("../DamageNumberOrigin")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_vpnn8")
+
+[node name="HealthBar" parent="." instance=ExtResource("4_50707")]
+offset_left = -78.0
+offset_top = -315.0
+offset_right = 162.0
+offset_bottom = -305.0
+
+[node name="DamageNumberOrigin" type="Node2D" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
