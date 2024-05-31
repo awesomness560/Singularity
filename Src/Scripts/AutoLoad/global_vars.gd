@@ -9,10 +9,7 @@ var timeScore : float
 var sizeScore : int
 
 var playerEnergy : float : set = keepPositiveEnergy #HACK: This is not the most modular way to do this, but it is the fastest
-
+var maxPlayerEnergy : float
 
 func keepPositiveEnergy(energy : float):
-	if energy < 0:
-		energy = 0
-	
-	playerEnergy = energy
+	playerEnergy = clampf(energy, 0, maxPlayerEnergy)

@@ -36,6 +36,7 @@ func _ready():
 	
 	cooldownTimer.start()
 	Signal_bus.overcharged.connect(overcharge)
+	Signal_bus.usedOvercharge.connect(notOvercharged)
 
 func _unhandled_input(event):
 	if event.is_action_pressed("use_ability_1") and GlobalVars.playerEnergy > 0:
@@ -46,6 +47,9 @@ func _unhandled_input(event):
 			isCasting = false
 
 func _physics_process(delta):
+	if GlobalVars.playerEnergy <= 0:
+		isCasting = false
+	
 	var castPoint := target_position
 	force_shapecast_update()
 	
@@ -100,10 +104,12 @@ func setOvercharge(status : bool):
 		damageNode.critRate = 1
 	else:
 		damageNode.critRate = originalCritRate
-		Signal_bus.usedOvercharge.emit()
 
 func overcharge():
 	isOvercharged = true
+
+func notOvercharged():
+	isOvercharged = false
 
 func appear():
 	tween.kill()

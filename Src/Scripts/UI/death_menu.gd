@@ -24,6 +24,7 @@ func _on_visibility_changed():
 		#enemyScoreLabel.text = "Enemy score: " + str(GlobalVars.enemyScore)
 		#sizeScoreLabel.text = "Size score: " + str(GlobalVars.sizeScore)
 		#totalScoreLabel.text = "Total score: " + str(GlobalVars.sizeScore + GlobalVars.enemyScore)
+		await get_tree().create_timer(0.5).timeout
 		enemyScoreCounter.score_event(GlobalVars.enemyScore)
 		sizeScoreCounter.score_event(GlobalVars.sizeScore)
 

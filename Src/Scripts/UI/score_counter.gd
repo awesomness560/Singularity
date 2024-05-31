@@ -8,6 +8,8 @@ var trauma = 0
 var counter_offset = Vector2(0, 0)
 var shake = 8
 
+var lerpStep : float = 0.02
+
 func _ready():
 	randomize()
 	
@@ -18,18 +20,24 @@ func _process(delta):
 	counter_offset = Vector2((2*randf() - 1)*shake*trauma*trauma, (2*randf() - 1)*shake*trauma*trauma)
 	position += counter_offset
 	
-	score = lerpf(score, target_score, 0.02) 
-	text = str(int(score))
+	score = lerpf(score, target_score, lerpStep)
+	text = str(roundi(score))
 	
 	if int(score) == target_score:
 		set_process(false)
-	
-func score_event(scoreValue):
-	await get_tree().create_timer(0.5).timeout
-	
+
+func initScore(scoreVal):
+	text = str(scoreVal)
+	score = scoreVal
+	target_score = scoreVal
+
+func score_event(scoreValue, directSet : bool = false, doShake : bool = true):
 	set_process(true)
 	
-	var score_value = 100001# + randi()%6
-	target_score += scoreValue
+	if directSet:
+		target_score = scoreValue
+	else:
+		target_score += scoreValue
 	
-	trauma += 0.9
+	if doShake:
+		trauma += 0.9
