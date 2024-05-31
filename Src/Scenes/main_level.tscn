@@ -1,11 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://boy17pemt8twi"]
+[gd_scene load_steps=8 format=3 uid="uid://boy17pemt8twi"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Other/biome_spawner.gd" id="1_akj3x"]
 [ext_resource type="PackedScene" uid="uid://c6jf1kb5bfh54" path="res://Src/Scenes/Player/player.tscn" id="2_hrtp8"]
 [ext_resource type="Texture2D" uid="uid://bceamsfaxm56v" path="res://Src/Assets/Backgrounds/parallax-mountain-bg.png" id="3_icl6r"]
+[ext_resource type="Shader" path="res://Src/Assets/Shaders/sun.gdshader" id="4_d5xbw"]
 [ext_resource type="Texture2D" uid="uid://b0rpp73yh2e7i" path="res://Src/Assets/Backgrounds/parallax-mountain-montain-far.png" id="4_rl7kq"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_axvby"]
+shader = ExtResource("4_d5xbw")
+shader_parameter/brightness = 1.5
+shader_parameter/ray_brightness = 10.0
+shader_parameter/gamma = 8.0
+shader_parameter/spot_brightness = 15.0
+shader_parameter/ray_density = 24.405
+shader_parameter/curvature = 15.0
+shader_parameter/rgb = Vector3(4, 1, 0.1)
+shader_parameter/sin_freq = 13.0
+
 [sub_resource type="Environment" id="Environment_07lwh"]
+background_mode = 3
 
 [node name="BiomeSpawner" type="Node2D"]
 script = ExtResource("1_akj3x")
@@ -25,6 +38,13 @@ texture_filter = 1
 scale = Vector2(9.44375, 9.44375)
 texture = ExtResource("3_icl6r")
 centered = false
+
+[node name="ColorRect" type="ColorRect" parent="ParallaxBackground/Sky"]
+visible = false
+material = SubResource("ShaderMaterial_axvby")
+offset_right = 2646.0
+offset_bottom = 1517.0
+mouse_filter = 2
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(0.2, 0.2)

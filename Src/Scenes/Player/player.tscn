@@ -92,6 +92,7 @@ size = Vector2(191, 1333)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cameraTarget", "collisionShape", "scalableProperty", "deathMenu", "sprite")]
 script = ExtResource("1_pce26")
+scaleFactorMultiplier = 20.0
 cameraTarget = NodePath("CameraTarget")
 collisionShape = NodePath("CollisionShape2D")
 scalableProperty = NodePath("PlayerSprite")
@@ -101,9 +102,18 @@ sprite = NodePath("PlayerSprite")
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="HealthBar" parent="HUD" instance=ExtResource("6_lmt8k")]
-offset_right = 542.0
-offset_bottom = 26.0
-metadata/_edit_use_anchors_ = true
+process_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -271.0
+offset_top = -33.0
+offset_right = 271.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="Timer" parent="HUD" instance=ExtResource("3_lvp3y")]
 offset_left = 944.0
