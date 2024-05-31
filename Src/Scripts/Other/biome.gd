@@ -9,3 +9,8 @@ func config(marker : Node2D): ##Pass in the ending marker of the previous biome 
 	#We then add in the offset of the starting marker to make everything connect
 	global_position = marker.global_position
 	global_position += global_position - startingMarker.global_position
+
+
+func _on_portal_area_body_entered(body):
+	if body is Player:
+		Signal_bus.reachedPortal.emit()

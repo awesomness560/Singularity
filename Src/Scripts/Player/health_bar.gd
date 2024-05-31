@@ -27,6 +27,15 @@ func init_health(_health):
 	damage_bar.max_value = _health
 	damage_bar.value = _health
 
+func setNewHealth(newHealth, maxHealth):
+	max_value = maxHealth
+	damage_bar.max_value = maxHealth
+	
+	value = newHealth
+	damage_bar.value = newHealth
+	
+	timer.stop()
+
 func _on_timer_timeout():
 	tweenDamage(health)
 	

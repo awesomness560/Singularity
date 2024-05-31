@@ -12,16 +12,20 @@ class_name Player
 @export var deathMenu : Control
 @export var sprite : AnimatedSprite2D
 @export var overchargedTimer : Timer
+@export var healthModule : Health
+@export var healthBar : HealthBar
 
 @onready var originalSize : Vector2 = collisionShape.shape.size
 @onready var originalScale : Vector2 = scalableProperty.scale
 
 var timeMoving : float = 0
 var scaleFactor : float = 1 : set = changeScaleFactor
+var origHealthBarSize : Vector2
 
 var shaderMat : ShaderMaterial
 
 func _ready():
+	origHealthBarSize = healthBar.size
 	scaleFactor = 1 #To make sure that the setget runs (We don't have a size score of 0)
 	shaderMat = sprite.material
 	Signal_bus.usedOvercharge.connect(notOvercharged)
@@ -69,6 +73,8 @@ func changeScaleFactor(newFactor : float):
 	var newShape : RectangleShape2D = collisionShape.shape
 	newShape.size = Vector2(originalSize.x * scaleFactor, originalSize.y * scaleFactor)
 	collisionShape.shape = newShape
+	
+	changeMaxHealth(scaleFactor * 20)
 
 func notOvercharged():
 	shaderMat.set_shader_parameter("on", false)
@@ -80,3 +86,20 @@ func onOverchargeExpire():
 func _on_health_dead():
 	deathMenu.show()
 	get_tree().paused = true
+
+func changeMaxHealth(newMax : float):
+	var proportionHealth : float = 1 - (healthModule.health / healthModule.maxHealth)
+	
+	var newHealth : float
+	if proportionHealth == 0:
+		newHealth = newMax
+		proportionHealth = 1
+	else:
+		newHealth = newMax * proportionHealth
+	
+	healthBar.size.x = clampf(origHealthBarSize.x * scaleFactor, 10, origHealthBarSize.x + 50)
+	
+	healthBar.setNewHealth(newHealth, newMax)
+	healthModule.setHealth(newHealth)
+	print(str(newHealth) + "/" + str(newMax))
+	

@@ -4,3 +4,4 @@ signal overcharged
 signal usedOvercharge
 
 signal shakeCam(randStrength, shakeFade)
+signal reachedPortal

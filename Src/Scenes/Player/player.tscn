@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://c6jf1kb5bfh54"]
+[gd_scene load_steps=32 format=3 uid="uid://c6jf1kb5bfh54"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_pce26"]
@@ -18,6 +18,8 @@
 [ext_resource type="PackedScene" uid="uid://jjyga60mn7wj" path="res://Src/Scenes/Abilities/Laser.tscn" id="9_g3idi"]
 [ext_resource type="Texture2D" uid="uid://15d4enbdexwl" path="res://Src/Assets/Other/arrow.png" id="10_gcncu"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/energy_module.gd" id="16_1jukj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3t5hq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u420x"]
 shader = ExtResource("5_uj3y3")
@@ -94,7 +96,7 @@ size = Vector2(312, 1307)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eqfar"]
 size = Vector2(191, 1333)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cameraTarget", "collisionShape", "scalableProperty", "deathMenu", "sprite", "overchargedTimer")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cameraTarget", "collisionShape", "scalableProperty", "deathMenu", "sprite", "overchargedTimer", "healthModule", "healthBar")]
 script = ExtResource("1_pce26")
 scaleFactorMultiplier = 20.0
 cameraTarget = NodePath("CameraTarget")
@@ -103,11 +105,14 @@ scalableProperty = NodePath("PlayerSprite")
 deathMenu = NodePath("HUD/DeathMenu")
 sprite = NodePath("PlayerSprite")
 overchargedTimer = NodePath("OverchargedDuration")
+healthModule = NodePath("Health")
+healthBar = NodePath("HUD/HealthBar")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="HealthBar" parent="HUD" instance=ExtResource("6_lmt8k")]
 process_mode = 3
+material = SubResource("ShaderMaterial_3t5hq")
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -158,7 +163,7 @@ offset_top = 552.0
 offset_right = 96.0
 offset_bottom = 602.0
 theme = ExtResource("7_y66l1")
-theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_color = Color(3, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "100"
 script = ExtResource("8_uhi60")
