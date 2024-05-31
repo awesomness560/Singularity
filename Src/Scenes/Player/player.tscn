@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://c6jf1kb5bfh54"]
+[gd_scene load_steps=29 format=3 uid="uid://c6jf1kb5bfh54"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_pce26"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://gfbovowisrme" path="res://Src/Scenes/UI/death_menu.tscn" id="4_brw8y"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_camera.gd" id="4_sgymo"]
 [ext_resource type="Shader" path="res://Src/Assets/Shaders/vignette.gdshader" id="5_uj3y3"]
+[ext_resource type="PackedScene" uid="uid://ha7845wjsxme" path="res://Src/Scenes/Player/energy_bar.tscn" id="6_hwgg6"]
 [ext_resource type="PackedScene" uid="uid://de8dicwt413wk" path="res://Src/Scenes/Other/health.tscn" id="6_k0rty"]
 [ext_resource type="PackedScene" uid="uid://bwj8odndeofvj" path="res://Src/Scenes/Player/health_bar.tscn" id="6_lmt8k"]
 [ext_resource type="Shader" path="res://Src/Assets/Shaders/overcharge.gdshader" id="7_g7wu6"]
@@ -14,6 +15,7 @@
 [ext_resource type="Script" path="res://Src/Scripts/Player/ability_manager.gd" id="8_jhk7i"]
 [ext_resource type="PackedScene" uid="uid://jjyga60mn7wj" path="res://Src/Scenes/Abilities/Laser.tscn" id="9_g3idi"]
 [ext_resource type="Texture2D" uid="uid://15d4enbdexwl" path="res://Src/Assets/Other/arrow.png" id="10_gcncu"]
+[ext_resource type="Script" path="res://Src/Scripts/Player/energy_module.gd" id="16_1jukj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u420x"]
 shader = ExtResource("5_uj3y3")
@@ -108,9 +110,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -271.0
+offset_left = -555.0
 offset_top = -33.0
-offset_right = 271.0
+offset_right = -124.0
 offset_bottom = -19.0
 grow_horizontal = 2
 grow_vertical = 0
@@ -132,6 +134,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="EnergyBar" parent="HUD" instance=ExtResource("6_hwgg6")]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -508.0
+offset_top = -32.0
+offset_right = -20.0
+offset_bottom = -18.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="Movement" type="Node" parent="." node_paths=PackedStringArray("player", "sprite")]
 script = ExtResource("1_hgxmi")
@@ -199,6 +214,14 @@ position = Vector2(40, 0)
 rotation = 1.5708
 scale = Vector2(0.0673828, 0.0673828)
 texture = ExtResource("10_gcncu")
+
+[node name="EnergyModule" type="Node" parent="." node_paths=PackedStringArray("energyBar", "regenTimer")]
+script = ExtResource("16_1jukj")
+energyBar = NodePath("../HUD/EnergyBar")
+regenTimer = NodePath("RegenTime")
+
+[node name="RegenTime" type="Timer" parent="EnergyModule"]
+one_shot = true
 
 [connection signal="body_entered" from="CameraTarget/Camera2D/Area2D" to="CameraTarget/Camera2D" method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="CameraTarget/Camera2D/Area2D" to="CameraTarget/Camera2D" method="_on_area_2d_area_exited"]
