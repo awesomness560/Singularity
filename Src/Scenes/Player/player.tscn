@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_pce26"]
 [ext_resource type="Texture2D" uid="uid://b065kjmdbtwud" path="res://Src/Assets/Player/slime_sprite_sheet.png" id="2_41mqq"]
 [ext_resource type="PackedScene" path="res://Src/Scenes/UI/timer.tscn" id="3_lvp3y"]
-[ext_resource type="PackedScene" path="res://Src/Scenes/UI/death_menu.tscn" id="4_brw8y"]
+[ext_resource type="PackedScene" uid="uid://gfbovowisrme" path="res://Src/Scenes/UI/death_menu.tscn" id="4_brw8y"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_camera.gd" id="4_sgymo"]
 [ext_resource type="Shader" path="res://Src/Assets/Shaders/vignette.gdshader" id="5_uj3y3"]
 [ext_resource type="PackedScene" uid="uid://de8dicwt413wk" path="res://Src/Scenes/Other/health.tscn" id="6_k0rty"]
