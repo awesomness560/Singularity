@@ -7,6 +7,7 @@ class_name Player
 
 @export_group("References")
 @export var cameraTarget : Node2D ##The camera target node
+@export var camera : Camera2D
 @export var collisionShape : CollisionShape2D
 @export var scalableProperty : Node2D ##I set this to the sprite for now but if we want to scale more things this would be easier
 @export var deathMenu : Control
@@ -31,6 +32,7 @@ func _ready():
 	shaderMat = sprite.material
 	Signal_bus.usedOvercharge.connect(notOvercharged)
 	Signal_bus.changeScaleFactor.connect(signalScaleFactor)
+	Signal_bus.reachedPortal.connect(onPortalEntry)
 	overchargedTimer.timeout.connect(onOverchargeExpire)
 
 func _unhandled_input(event):
@@ -91,6 +93,10 @@ func notOvercharged():
 func onOverchargeExpire():
 	notOvercharged()
 	Signal_bus.usedOvercharge.emit()
+
+func onPortalEntry():
+	global_position = Vector2(0, 0)
+	camera.global_position = Vector2(0, 0)
 
 func _on_health_dead():
 	deathMenu.show()

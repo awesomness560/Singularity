@@ -60,10 +60,11 @@ animations = [{
 radius = 6.01453
 height = 31.0568
 
-[node name="LastBiome" type="Node2D" node_paths=PackedStringArray("startingMarker", "endingMarker")]
+[node name="LastBiome" type="Node2D" node_paths=PackedStringArray("startingMarker", "endingMarker", "animatedSprite")]
 script = ExtResource("1_ed78p")
 startingMarker = NodePath("StartingMarker")
 endingMarker = NodePath("EndingMarker")
+animatedSprite = NodePath("Portal")
 
 [node name="ColorRect2" type="ColorRect" parent="."]
 offset_top = 631.0

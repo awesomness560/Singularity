@@ -13,7 +13,7 @@ shader_parameter/line_scale = 0.0
 shader_parameter/frequency = 3.0
 shader_parameter/alpha = 1.0
 
-[node name="DeathMenu" type="Control" node_paths=PackedStringArray("enemyScoreLabel", "enemyScoreCounter", "sizeScoreLabel", "sizeScoreCounter", "totalScoreLabel", "totalScoreCounter")]
+[node name="DeathMenu" type="Control" node_paths=PackedStringArray("deathControl", "finishControl", "enemyScoreLabel", "enemyScoreCounter", "sizeScoreLabel", "sizeScoreCounter", "totalScoreLabel", "totalScoreCounter")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,30 +22,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qskop")
 men = ExtResource("2_nk6dl")
+deathControl = NodePath("DeathControl")
+finishControl = NodePath("FinishedControl")
 enemyScoreLabel = NodePath("ScoreContainer/EnemyScoreContainer/EnemyScoreLabel")
 enemyScoreCounter = NodePath("ScoreContainer/EnemyScoreContainer/EnemyScore")
 sizeScoreLabel = NodePath("ScoreContainer/SizeScoreContainer/SizeScore")
 sizeScoreCounter = NodePath("ScoreContainer/SizeScoreContainer/SizeScoreCounter")
 totalScoreLabel = NodePath("ScoreContainer/TotalScoreContainer/TotalScore")
 totalScoreCounter = NodePath("ScoreContainer/TotalScoreContainer/TotalScoreCounter")
-
-[node name="Restart" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -32.5
-offset_top = 114.0
-offset_right = 32.5
-offset_bottom = 145.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("2_mpvne")
-theme_override_colors/font_color = Color(0.996078, 0.937255, 0.898039, 1)
-theme_override_font_sizes/font_size = 40
-text = "Restart"
 
 [node name="ScoreContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -136,7 +120,33 @@ visible = false
 layout_mode = 2
 text = "Time spent score:"
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="DeathControl" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Restart" type="Button" parent="DeathControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -77.5
+offset_top = 100.5
+offset_right = 77.5
+offset_bottom = 158.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_mpvne")
+theme_override_colors/font_color = Color(0.996078, 0.937255, 0.898039, 1)
+theme_override_font_sizes/font_size = 40
+text = "Restart"
+
+[node name="Background" type="ColorRect" parent="DeathControl"]
 z_index = -1
 layout_mode = 1
 anchors_preset = 15
@@ -147,5 +157,44 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.352941, 0.180392, 0.152941, 0.788235)
 
+[node name="FinishedControl" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainMenu" type="Button" parent="FinishedControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -117.0
+offset_top = 101.0
+offset_right = 117.0
+offset_bottom = 159.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_mpvne")
+theme_override_colors/font_color = Color(0.996078, 0.937255, 0.898039, 1)
+theme_override_font_sizes/font_size = 40
+text = "Main Menu"
+
+[node name="BackgroundFinished" type="ColorRect" parent="FinishedControl"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="DeathControl/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="FinishedControl/MainMenu" to="." method="_on_restart_pressed"]

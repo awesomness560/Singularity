@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://durc3ijdnbbnc"]
+[gd_scene load_steps=8 format=3 uid="uid://durc3ijdnbbnc"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Other/final_level.gd" id="1_pbhev"]
 [ext_resource type="Shader" path="res://Src/Assets/Shaders/hyperSpace.gdshader" id="1_war8u"]
 [ext_resource type="PackedScene" uid="uid://bw6recw7wnobq" path="res://Src/Scenes/Enemies/TimeLord/TimeLord.tscn" id="2_d5j5u"]
 [ext_resource type="PackedScene" uid="uid://b0cm8016fqn3r" path="res://Src/Scenes/Enemies/Sek'yi/Sek'yi.tscn" id="3_pdwro"]
-[ext_resource type="PackedScene" uid="uid://c6jf1kb5bfh54" path="res://Src/Scenes/Player/player.tscn" id="5_8xnsr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dak21"]
 shader = ExtResource("1_war8u")
@@ -72,37 +71,37 @@ color = Color(0.841263, 0.284531, 0, 1)
 position = Vector2(263.5, 30)
 shape = SubResource("RectangleShape2D_q0kin")
 
-[node name="TimeLord" parent="." instance=ExtResource("2_d5j5u")]
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="TimeLord" parent="Enemies" instance=ExtResource("2_d5j5u")]
 position = Vector2(-2670, 262)
 
-[node name="TimeLord2" parent="." instance=ExtResource("2_d5j5u")]
+[node name="TimeLord2" parent="Enemies" instance=ExtResource("2_d5j5u")]
 position = Vector2(3297, 309)
 
-[node name="Sek\'yi" parent="." instance=ExtResource("3_pdwro")]
+[node name="Sek\'yi" parent="Enemies" instance=ExtResource("3_pdwro")]
 position = Vector2(-1280, 492)
 
-[node name="Sek\'yi2" parent="." instance=ExtResource("3_pdwro")]
+[node name="Sek\'yi2" parent="Enemies" instance=ExtResource("3_pdwro")]
 position = Vector2(-856, 111)
 
-[node name="Sek\'yi3" parent="." instance=ExtResource("3_pdwro")]
-position = Vector2(-169, -190)
+[node name="Sek\'yi3" parent="Enemies" instance=ExtResource("3_pdwro")]
+position = Vector2(-257, 173)
 
-[node name="Sek\'yi4" parent="." instance=ExtResource("3_pdwro")]
-position = Vector2(814, -160)
+[node name="Sek\'yi4" parent="Enemies" instance=ExtResource("3_pdwro")]
+position = Vector2(784, -16)
 
-[node name="Sek\'yi5" parent="." instance=ExtResource("3_pdwro")]
+[node name="Sek\'yi5" parent="Enemies" instance=ExtResource("3_pdwro")]
 position = Vector2(450, 434)
 
-[node name="Sek\'yi6" parent="." instance=ExtResource("3_pdwro")]
+[node name="Sek\'yi6" parent="Enemies" instance=ExtResource("3_pdwro")]
 position = Vector2(1548, 290)
 
-[node name="Sek\'yi7" parent="." instance=ExtResource("3_pdwro")]
-position = Vector2(2417, -19)
+[node name="Sek\'yi7" parent="Enemies" instance=ExtResource("3_pdwro")]
+position = Vector2(2381, 149)
 
-[node name="Sek\'yi8" parent="." instance=ExtResource("3_pdwro")]
+[node name="Sek\'yi8" parent="Enemies" instance=ExtResource("3_pdwro")]
 position = Vector2(-1948, 117)
 
-[node name="Sek\'yi9" parent="." instance=ExtResource("3_pdwro")]
+[node name="Sek\'yi9" parent="Enemies" instance=ExtResource("3_pdwro")]
 position = Vector2(2416, 525)
-
-[node name="Player" parent="." instance=ExtResource("5_8xnsr")]

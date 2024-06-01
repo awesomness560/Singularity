@@ -3,6 +3,9 @@ extends Control
 @export var men : PackedScene
 @export_group("References")
 
+@export var deathControl : Control
+@export var finishControl : Control
+
 @export_subgroup("Enemy Score")
 @export var enemyScoreLabel : Label
 @export var enemyScoreCounter : ScoreLabel
@@ -16,7 +19,7 @@ extends Control
 @export var totalScoreCounter : ScoreLabel
 
 func _ready():
-	print(men)
+	Signal_bus.gameCompleted.connect(onFinish)
 
 func _on_visibility_changed():
 	if visible:
@@ -29,6 +32,10 @@ func _on_visibility_changed():
 		sizeScoreCounter.score_event(GlobalVars.sizeScore)
 		totalScoreCounter.score_event(GlobalVars.sizeScore + GlobalVars.enemyScore)
 
+func onFinish():
+	deathControl.hide()
+	finishControl.show()
+	show()
 
 func _on_restart_pressed():
 	var sceneManager : SceneManager = GlobalVars.sceneManager

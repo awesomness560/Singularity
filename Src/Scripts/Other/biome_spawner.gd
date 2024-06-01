@@ -3,6 +3,7 @@ extends Node2D
 @export_dir var biomeDirectory : String
 @export var biomesNumber : int = 3
 @export var lastBiome : BiomeResource
+@export var player : PackedScene
 
 var previousBiome : Biome
 var biomes : Array[BiomeResource]
@@ -12,6 +13,8 @@ var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng.randomize()
+	var player : Player = player.instantiate()
+	add_sibling(player)
 	
 	dir_contents(biomeDirectory + "/")
 	for i in biomesNumber:

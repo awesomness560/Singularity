@@ -26,9 +26,7 @@ script = ExtResource("1_akj3x")
 biomeDirectory = "res://Src/Resources/Biomes"
 biomesNumber = 8
 lastBiome = ExtResource("2_062tv")
-
-[node name="Player" parent="." instance=ExtResource("2_hrtp8")]
-position = Vector2(398, 224)
+player = ExtResource("2_hrtp8")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 

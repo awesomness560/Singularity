@@ -1,11 +1,19 @@
 extends Node2D
 
+@export var numOfEnemies : int = 11
 
+var currentEnemiesDead : int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Signal_bus.lockOntoPlayer.emit()
+	Signal_bus.enemyDied.connect(onEnemyDeath)
+	Signal_bus.enemySpawned.connect(newEnemy)
 
+func newEnemy():
+	numOfEnemies += 1
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func onEnemyDeath():
+	currentEnemiesDead += 1
+	
+	if currentEnemiesDead >= numOfEnemies:
+		Signal_bus.gameCompleted.emit()

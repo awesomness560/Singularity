@@ -31,4 +31,5 @@ func _on_spawn_timer_timeout():
 		var scrawlerInstance = Scrawler.instantiate()
 		scrawlerInstance.global_position = self.global_position
 		scrawlerInstance.top_level = true
-		add_child(scrawlerInstance)
+		add_sibling(scrawlerInstance)
+		Signal_bus.enemySpawned.emit()
