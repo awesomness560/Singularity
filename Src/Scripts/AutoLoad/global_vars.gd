@@ -1,5 +1,6 @@
 extends Node
 
+var playerUsername : String
 var sceneManager : SceneManager
 
 var timeSpent : float

@@ -1,23 +1,52 @@
-[gd_scene load_steps=2 format=3 uid="uid://bcole6udjkatn"]
+[gd_scene load_steps=3 format=3 uid="uid://bcole6udjkatn"]
 
 [ext_resource type="Script" path="res://Src/Scripts/UI/main_menu.gd" id="1_k6cxx"]
+[ext_resource type="PackedScene" uid="uid://dgygkbtm0burn" path="res://addons/quiver_leaderboards/leaderboard_ui.tscn" id="2_lhosg"]
 
-[node name="MainMenu" type="CanvasLayer"]
+[node name="MainMenu" type="CanvasLayer" node_paths=PackedStringArray("usernameLineEdit", "submitButton", "submitTimer")]
 script = ExtResource("1_k6cxx")
+usernameLineEdit = NodePath("Username/LineEdit")
+submitButton = NodePath("Username/Submit")
+submitTimer = NodePath("Username/Submit/Timer")
 
 [node name="StartGame" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 4
 anchor_top = 0.5
-anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -4.0
-offset_top = -4.0
-offset_right = 4.0
-offset_bottom = 4.0
-grow_horizontal = 2
+offset_left = 104.0
+offset_top = -15.5
+offset_right = 200.0
+offset_bottom = 15.5
 grow_vertical = 2
 text = "Start Game
 "
 
+[node name="Username" type="HBoxContainer" parent="."]
+offset_left = 43.0
+offset_top = 354.0
+offset_right = 310.0
+offset_bottom = 394.0
+
+[node name="LineEdit" type="LineEdit" parent="Username"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+placeholder_text = "Insert Username Here"
+max_length = 15
+
+[node name="Submit" type="Button" parent="Username"]
+layout_mode = 2
+text = "Submit"
+
+[node name="Timer" type="Timer" parent="Username/Submit"]
+one_shot = true
+
+[node name="LeaderboardUI" parent="." instance=ExtResource("2_lhosg")]
+offset_left = 623.0
+offset_top = 83.0
+offset_right = -42.0
+offset_bottom = -113.0
+leaderboard_id = "singularityslime-highest-score-KgBl"
+
 [connection signal="pressed" from="StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="Username/Submit" to="." method="_on_submit_pressed"]
+[connection signal="timeout" from="Username/Submit/Timer" to="." method="_on_timer_timeout"]

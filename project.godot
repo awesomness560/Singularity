@@ -20,6 +20,8 @@ config/icon="res://icon.svg"
 Signal_bus="*res://Src/Scripts/AutoLoad/Signal_bus.gd"
 DamageNumbers="*res://Src/Scenes/Autoloads/damage_numbers.tscn"
 GlobalVars="*res://Src/Scenes/Autoloads/global_vars.tscn"
+Leaderboards="*res://addons/quiver_leaderboards/leaderboards.tscn"
+PlayerAccounts="*res://addons/quiver_player_accounts/player_accounts.tscn"
 
 [display]
 
@@ -28,7 +30,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/quiver_leaderboards/plugin.cfg", "res://addons/quiver_player_accounts/plugin.cfg")
 
 [file_customization]
 
@@ -101,6 +103,10 @@ pause_game={
 2d_physics/layer_2="enemy attack & scan"
 2d_physics/layer_3="enemy collision layer"
 2d_physics/layer_4="Particles"
+
+[quiver]
+
+general/auth_token="H8EOfl6IhIQ0y9HlZmdgpK0XY1eZWR5l0gZRmqin"
 
 [rendering]
 

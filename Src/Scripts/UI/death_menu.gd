@@ -1,6 +1,7 @@
 extends Control
 
 @export var men : PackedScene
+@export var leaderboardID : String = "singularityslime-highest-score-KgBl"
 @export_group("References")
 
 @export var deathControl : Control
@@ -30,7 +31,16 @@ func _on_visibility_changed():
 		await get_tree().create_timer(0.5).timeout
 		enemyScoreCounter.score_event(GlobalVars.enemyScore)
 		sizeScoreCounter.score_event(GlobalVars.sizeScore)
-		totalScoreCounter.score_event(GlobalVars.sizeScore + GlobalVars.enemyScore)
+		var totalScore = GlobalVars.sizeScore + GlobalVars.enemyScore
+		totalScoreCounter.score_event(totalScore)
+		
+		var nickname : String
+		if not GlobalVars.playerUsername:
+			nickname = "NoUsername" + str(randi_range(100, 999))
+		else:
+			nickname = GlobalVars.playerUsername
+		
+		await Leaderboards.post_guest_score(leaderboardID, totalScore, nickname)
 
 func onFinish():
 	deathControl.hide()
