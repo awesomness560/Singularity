@@ -10,6 +10,8 @@ var seconds : int = 0
 var msc : int = 0
 
 func _process(delta):
+	if get_tree().paused:
+		return
 	time += delta
 	GlobalVars.timeSpent = time
 	
@@ -20,6 +22,8 @@ func _process(delta):
 	minutesLabel.text = "%02d:" % minutes
 	secondsLabel.text = "%02d." % seconds
 	mscLabel.text = "%03d" % msc
+	
+	GlobalVars.timeSpent = time
 
 func stop() -> void:
 	set_process(false)

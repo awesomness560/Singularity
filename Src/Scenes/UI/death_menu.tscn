@@ -13,7 +13,7 @@ shader_parameter/line_scale = 0.0
 shader_parameter/frequency = 3.0
 shader_parameter/alpha = 1.0
 
-[node name="DeathMenu" type="Control" node_paths=PackedStringArray("deathControl", "finishControl", "enemyScoreLabel", "enemyScoreCounter", "sizeScoreLabel", "sizeScoreCounter", "totalScoreLabel", "totalScoreCounter")]
+[node name="DeathMenu" type="Control" node_paths=PackedStringArray("deathControl", "finishControl", "enemyScoreLabel", "enemyScoreCounter", "sizeScoreLabel", "sizeScoreCounter", "timeContainer", "timeScoreLabel", "timeScoreCounter", "totalScoreLabel", "totalScoreCounter")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,6 +28,9 @@ enemyScoreLabel = NodePath("ScoreContainer/EnemyScoreContainer/EnemyScoreLabel")
 enemyScoreCounter = NodePath("ScoreContainer/EnemyScoreContainer/EnemyScore")
 sizeScoreLabel = NodePath("ScoreContainer/SizeScoreContainer/SizeScore")
 sizeScoreCounter = NodePath("ScoreContainer/SizeScoreContainer/SizeScoreCounter")
+timeContainer = NodePath("ScoreContainer/TimeSpent")
+timeScoreLabel = NodePath("ScoreContainer/TimeSpent/TimeScore")
+timeScoreCounter = NodePath("ScoreContainer/TimeSpent/TimeScoreCounter")
 totalScoreLabel = NodePath("ScoreContainer/TotalScoreContainer/TotalScore")
 totalScoreCounter = NodePath("ScoreContainer/TotalScoreContainer/TotalScoreCounter")
 
@@ -77,7 +80,7 @@ size_flags_horizontal = 3
 theme = ExtResource("2_mpvne")
 theme_override_colors/font_color = Color(1, 0.811765, 0, 1)
 theme_override_font_sizes/font_size = 30
-text = "Size score:"
+text = "Size Bonus:"
 
 [node name="SizeScoreCounter" type="Label" parent="ScoreContainer/SizeScoreContainer"]
 material = SubResource("ShaderMaterial_tyo8x")
@@ -85,6 +88,28 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_mpvne")
 theme_override_colors/font_color = Color(1, 0.811765, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "00"
+horizontal_alignment = 1
+script = ExtResource("4_shql1")
+
+[node name="TimeSpent" type="HBoxContainer" parent="ScoreContainer"]
+visible = false
+layout_mode = 2
+
+[node name="TimeScore" type="Label" parent="ScoreContainer/TimeSpent"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_mpvne")
+theme_override_colors/font_color = Color(0, 0.563478, 0.989116, 1)
+theme_override_font_sizes/font_size = 30
+text = "Time Bonus:"
+
+[node name="TimeScoreCounter" type="Label" parent="ScoreContainer/TimeSpent"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_mpvne")
+theme_override_colors/font_color = Color(0, 0.563478, 0.989116, 1)
 theme_override_font_sizes/font_size = 30
 text = "00"
 horizontal_alignment = 1
@@ -114,11 +139,6 @@ theme_override_font_sizes/font_size = 30
 text = "00"
 horizontal_alignment = 1
 script = ExtResource("4_shql1")
-
-[node name="TimeScoreLabel" type="Label" parent="ScoreContainer"]
-visible = false
-layout_mode = 2
-text = "Time spent score:"
 
 [node name="DeathControl" type="Control" parent="."]
 layout_mode = 1

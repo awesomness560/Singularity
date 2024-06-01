@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://boy17pemt8twi"]
+[gd_scene load_steps=7 format=3 uid="uid://boy17pemt8twi"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Other/biome_spawner.gd" id="1_akj3x"]
 [ext_resource type="Resource" uid="uid://igpo2tjgqxev" path="res://Src/Resources/last_biome.tres" id="2_062tv"]
 [ext_resource type="PackedScene" uid="uid://c6jf1kb5bfh54" path="res://Src/Scenes/Player/player.tscn" id="2_hrtp8"]
 [ext_resource type="Shader" path="res://Src/Assets/Shaders/stars.gdshader" id="4_llks8"]
+[ext_resource type="AudioStream" uid="uid://ob23koy0q4o3" path="res://Src/Assets/Sounds/Voxel_Revolution.mp3" id="5_vx0jc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r74bq"]
 shader = ExtResource("4_llks8")
@@ -41,3 +42,7 @@ offset_bottom = 1293.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_vx0jc")
+autoplay = true

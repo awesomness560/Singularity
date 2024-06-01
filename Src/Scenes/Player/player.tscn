@@ -1,8 +1,9 @@
-[gd_scene load_steps=38 format=3 uid="uid://c6jf1kb5bfh54"]
+[gd_scene load_steps=39 format=3 uid="uid://c6jf1kb5bfh54"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_pce26"]
 [ext_resource type="Texture2D" uid="uid://b065kjmdbtwud" path="res://Src/Assets/Player/slime_sprite_sheet.png" id="2_41mqq"]
+[ext_resource type="PackedScene" uid="uid://d2pownynoo8qt" path="res://Src/Scenes/UI/timer.tscn" id="3_lvp3y"]
 [ext_resource type="PackedScene" uid="uid://gfbovowisrme" path="res://Src/Scenes/UI/death_menu.tscn" id="4_brw8y"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_camera.gd" id="4_sgymo"]
 [ext_resource type="Shader" path="res://Src/Assets/Shaders/vignette.gdshader" id="5_uj3y3"]
@@ -214,6 +215,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="Timer" parent="HUD/HUD" instance=ExtResource("3_lvp3y")]
+layout_mode = 1
+offset_left = 957.0
+offset_bottom = -588.0
 
 [node name="PauseMenu" parent="HUD" instance=ExtResource("9_x6t62")]
 process_mode = 3

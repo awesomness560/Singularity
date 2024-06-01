@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bcole6udjkatn"]
+[gd_scene load_steps=6 format=3 uid="uid://bcole6udjkatn"]
 
 [ext_resource type="Script" path="res://Src/Scripts/UI/main_menu.gd" id="1_k6cxx"]
 [ext_resource type="PackedScene" uid="uid://dgygkbtm0burn" path="res://addons/quiver_leaderboards/leaderboard_ui.tscn" id="2_lhosg"]
+[ext_resource type="Shader" path="res://Src/Assets/Shaders/black_hole.gdshader" id="3_1ffwn"]
+[ext_resource type="AudioStream" uid="uid://dctnwll6tkq6b" path="res://Src/Assets/Sounds/that-background-ambient-114376.mp3" id="4_2rp31"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3tke2"]
+shader = ExtResource("3_1ffwn")
+shader_parameter/screen_resolution = 1.0
 
 [node name="MainMenu" type="CanvasLayer" node_paths=PackedStringArray("usernameLineEdit", "submitButton", "submitTimer")]
 script = ExtResource("1_k6cxx")
@@ -46,6 +52,22 @@ offset_top = 83.0
 offset_right = -42.0
 offset_bottom = -113.0
 leaderboard_id = "singularityslime-highest-score-KgBl"
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -2
+material = SubResource("ShaderMaterial_3tke2")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_2rp31")
+volume_db = -10.0
+autoplay = true
+bus = &"Music"
 
 [connection signal="pressed" from="StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="Username/Submit" to="." method="_on_submit_pressed"]
