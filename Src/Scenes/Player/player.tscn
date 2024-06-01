@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://c6jf1kb5bfh54"]
+[gd_scene load_steps=38 format=3 uid="uid://c6jf1kb5bfh54"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_pce26"]
@@ -33,8 +33,6 @@ shader_parameter/b_displacement = Vector2(-3, 0)
 shader_parameter/height = 0.7
 shader_parameter/width = 0.7
 shader_parameter/fade = 0.7
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3t5hq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ev1ff"]
 shader = ExtResource("9_w1dus")
@@ -150,6 +148,7 @@ text = "100"
 script = ExtResource("8_uhi60")
 
 [node name="EnergyLabel" type="Label" parent="HUD/HUD"]
+visible = false
 layout_mode = 0
 offset_left = 1055.0
 offset_top = 552.0
@@ -174,6 +173,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="EnergyBar" parent="HUD/HUD" instance=ExtResource("6_hwgg6")]
+visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -190,7 +190,6 @@ mouse_filter = 2
 
 [node name="HealthBar" parent="HUD/HUD" instance=ExtResource("6_lmt8k")]
 process_mode = 3
-material = SubResource("ShaderMaterial_3t5hq")
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -212,6 +211,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = 551.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -250,6 +251,7 @@ shape = SubResource("RectangleShape2D_ilbhh")
 
 [node name="Camera2D" type="Camera2D" parent="CameraTarget"]
 top_level = true
+offset = Vector2(0, -100)
 zoom = Vector2(0.5, 0.5)
 position_smoothing_enabled = true
 drag_vertical_offset = -1.0

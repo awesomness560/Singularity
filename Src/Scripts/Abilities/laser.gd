@@ -39,7 +39,7 @@ func _ready():
 	Signal_bus.usedOvercharge.connect(notOvercharged)
 
 func _unhandled_input(event):
-	if event.is_action_pressed("use_ability_1") and GlobalVars.playerEnergy > 0:
+	if event.is_action_pressed("use_ability_1"):
 		#_on_auto_activation_time_timeout()
 		isCasting = true
 	else:
@@ -47,8 +47,8 @@ func _unhandled_input(event):
 			isCasting = false
 
 func _physics_process(delta):
-	if GlobalVars.playerEnergy <= 0:
-		isCasting = false
+	#if GlobalVars.playerEnergy <= 0:
+		#isCasting = false
 	
 	var castPoint := target_position
 	force_shapecast_update()

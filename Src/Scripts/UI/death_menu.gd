@@ -43,6 +43,7 @@ func _on_visibility_changed():
 		
 		if isFinished:
 			var timeScore : float = 15000 / GlobalVars.timeSpent
+			GlobalVars.timeScore = timeScore
 			totalScore += 15000 / GlobalVars.timeSpent
 			
 			timeContainer.show()
@@ -58,7 +59,9 @@ func _on_visibility_changed():
 		
 		totalScore = roundi(totalScore)
 		
-		await Leaderboards.post_guest_score(leaderboardID, totalScore, nickname)
+		var metadata : Dictionary = {"Enemy score" : GlobalVars.enemyScore, "Size Score" : GlobalVars.sizeScore, "Time score" : GlobalVars.timeScore, "Time spent" : GlobalVars.timeSpent}
+		
+		await Leaderboards.post_guest_score(leaderboardID, totalScore, nickname, metadata)
 		
 		GlobalVars.sizeScore = 0
 		GlobalVars.timeScore = 0
@@ -69,6 +72,7 @@ func onFinish():
 	finishControl.show()
 	show()
 	isFinished = true
+	get_tree().paused = true
 
 func _on_restart_pressed():
 	var sceneManager : SceneManager = GlobalVars.sceneManager
