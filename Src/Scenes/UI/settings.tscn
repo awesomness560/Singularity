@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://dj7jg16fqoxpu"]
+
+[ext_resource type="Script" path="res://Src/Scripts/UI/input_settings.gd" id="1_ky4n7"]
+[ext_resource type="PackedScene" uid="uid://bacnius2wjil6" path="res://Src/Scenes/UI/input_button.tscn" id="2_cs4cj"]
+[ext_resource type="Theme" uid="uid://boq2f86ty0hpo" path="res://Src/Assets/Other/main_theme.tres" id="2_r03rw"]
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InputSettings" type="PanelContainer" parent="." node_paths=PackedStringArray("actionList")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -237.0
+offset_top = -246.0
+offset_right = 237.0
+offset_bottom = 246.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ky4n7")
+inputButtonScene = ExtResource("2_cs4cj")
+actionList = NodePath("MarginContainer/VBoxContainer/ScrollContainer/ActionList")
+
+[node name="MarginContainer" type="MarginContainer" parent="InputSettings"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InputSettings/MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="InputSettings/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionList" type="VBoxContainer" parent="InputSettings/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ResetButton" type="Button" parent="InputSettings/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_r03rw")
+text = "Reset to default"
+
+[connection signal="pressed" from="InputSettings/MarginContainer/VBoxContainer/ResetButton" to="InputSettings" method="_on_reset_button_pressed"]

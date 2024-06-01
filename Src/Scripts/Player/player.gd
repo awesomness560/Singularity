@@ -14,6 +14,7 @@ class_name Player
 @export var overchargedTimer : Timer
 @export var healthModule : Health
 @export var healthBar : HealthBar
+@export var pauseMenu : Control
 
 @onready var originalSize : Vector2 = collisionShape.shape.size
 @onready var originalScale : Vector2 = scalableProperty.scale
@@ -29,6 +30,7 @@ func _ready():
 	scaleFactor = 1 #To make sure that the setget runs (We don't have a size score of 0)
 	shaderMat = sprite.material
 	Signal_bus.usedOvercharge.connect(notOvercharged)
+	Signal_bus.changeScaleFactor.connect(signalScaleFactor)
 	overchargedTimer.timeout.connect(onOverchargeExpire)
 
 func _unhandled_input(event):
@@ -40,6 +42,9 @@ func _unhandled_input(event):
 		
 		shaderMat.set_shader_parameter("on", true)
 		Signal_bus.shakeCam.emit(30, 5)
+	elif event.is_action_pressed("pause_game"):
+		get_tree().paused = true
+		pauseMenu.show()
 
 func _physics_process(delta):
 	
@@ -63,10 +68,14 @@ func _physics_process(delta):
 		else:
 			cameraTarget.position.y = -margins
 
+func signalScaleFactor(factor : float):
+	scaleFactor = factor
+
 func changeScaleFactor(newFactor : float):
 	#FIXME: When scaling up the player, the arrow and laser should also scale up (maybe)
 	scaleFactor = clampf(newFactor, 0.1, INF)
 	GlobalVars.sizeScore = scaleFactor * scaleFactorMultiplier
+	GlobalVars.scaleFactor = scaleFactor
 	
 	scalableProperty.scale = Vector2(originalScale.x * scaleFactor, originalScale.y * scaleFactor)
 	
@@ -87,7 +96,7 @@ func _on_health_dead():
 	deathMenu.show()
 	get_tree().paused = true
 
-func changeMaxHealth(newMax : float):
+func changeMaxHealth(newMax : float): #FIXME: When you get bigger or smaller, you heal. That isn't supposed to happen
 	var proportionHealth : float = 1 - (healthModule.health / healthModule.maxHealth)
 	
 	var newHealth : float
@@ -101,6 +110,5 @@ func changeMaxHealth(newMax : float):
 	
 	healthBar.setNewHealth(newHealth, newMax)
 	healthModule.setHealth(newHealth)
-	healthModule.maxHealth = newMax
-	print(str(newHealth) + "/" + str(newMax))
+	#healthModule.maxHealth = newMax
 	

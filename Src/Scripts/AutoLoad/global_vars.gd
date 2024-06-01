@@ -3,6 +3,7 @@ extends Node
 var sceneManager : SceneManager
 
 var timeSpent : float
+var scaleFactor : float
 
 var enemyScore : int
 var timeScore : float

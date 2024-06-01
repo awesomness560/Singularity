@@ -27,6 +27,7 @@ func _on_visibility_changed():
 		await get_tree().create_timer(0.5).timeout
 		enemyScoreCounter.score_event(GlobalVars.enemyScore)
 		sizeScoreCounter.score_event(GlobalVars.sizeScore)
+		totalScoreCounter.score_event(GlobalVars.sizeScore + GlobalVars.enemyScore)
 
 
 func _on_restart_pressed():
