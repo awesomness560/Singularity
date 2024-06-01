@@ -1,6 +1,7 @@
 extends Camera2D
 class_name PlayerCamera
 
+@export var lockOnPlayer : bool = false
 @export var movementSpeed : float = 200 ##How fast the camera moves across the screen (side scrolling)
 @export var onSideSpeed : float = 1000 ##This is how fast the camera moves when the player wants to push it faster
 
@@ -19,11 +20,16 @@ func _ready():
 	currentMovementSpeed = movementSpeed
 	
 	Signal_bus.shakeCam.connect(signalShake)
+	Signal_bus.lockOntoPlayer.connect(lockUntoPlayer)
 
 func _process(delta):
-	global_position.x += currentMovementSpeed * delta
-	#We are set to top level so we ingore the transform of our parent. We need to set the y transform to be the same though
-	global_position.y = camTarget.global_position.y 
+	if not lockOnPlayer:
+		top_level = true
+		global_position.x += currentMovementSpeed * delta
+		#We are set to top level so we ingore the transform of our parent. We need to set the y transform to be the same though
+		global_position.y = camTarget.global_position.y
+	else:
+		top_level = false
 	
 	if shake_strength > 0:
 		shake_strength = lerpf(shake_strength, 0, shakeFade * delta)
@@ -35,6 +41,9 @@ func signalShake(strength : float = 20, fade : float = 5):
 	randomStrength = strength
 	shakeFade = fade
 	applyShake()
+
+func lockUntoPlayer():
+	lockOnPlayer = true
 
 func applyShake():
 	shake_strength = randomStrength

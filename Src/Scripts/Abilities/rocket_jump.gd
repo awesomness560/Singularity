@@ -11,6 +11,7 @@ extends Node2D
 @export var selfDamageModule : Damager
 @export var blastArea : Area2D
 @export var explosionParticles : GPUParticles2D
+@export var explosionSound : AudioStreamPlayer2D
 
 func _ready():
 	speed *= 1000000
@@ -26,6 +27,7 @@ func _unhandled_input(event):
 		explode()
 
 func explode():
+	explosionSound.play()
 	Signal_bus.shakeCam.emit(40, 5)
 	explosionParticles.emitting = true
 	

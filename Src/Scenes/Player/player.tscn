@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://c6jf1kb5bfh54"]
+[gd_scene load_steps=39 format=3 uid="uid://c6jf1kb5bfh54"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_pce26"]
@@ -16,10 +16,14 @@
 [ext_resource type="Script" path="res://Src/Scripts/Player/ability_manager.gd" id="8_jhk7i"]
 [ext_resource type="Script" path="res://Src/Scripts/UI/score_counter.gd" id="8_uhi60"]
 [ext_resource type="PackedScene" uid="uid://jjyga60mn7wj" path="res://Src/Scenes/Abilities/Laser.tscn" id="9_g3idi"]
+[ext_resource type="Shader" path="res://Src/Assets/Shaders/bloom.gdshader" id="9_w1dus"]
 [ext_resource type="PackedScene" uid="uid://r24nq2vebpae" path="res://Src/Scenes/UI/pause_menu.tscn" id="9_x6t62"]
 [ext_resource type="Texture2D" uid="uid://15d4enbdexwl" path="res://Src/Assets/Other/arrow.png" id="10_gcncu"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/energy_module.gd" id="16_1jukj"]
 [ext_resource type="PackedScene" uid="uid://cgfx0607pn4mt" path="res://Src/Scenes/Abilities/rocket_jump.tscn" id="18_y1cfv"]
+[ext_resource type="AudioStream" uid="uid://j4yogkxjhvxp" path="res://Src/Assets/Sounds/jump.wav" id="22_36u6v"]
+[ext_resource type="AudioStream" uid="uid://ce4u8qq12cbrn" path="res://Src/Assets/Sounds/explosion.wav" id="23_q0hfv"]
+[ext_resource type="AudioStream" uid="uid://eu7vxcbgiwfw" path="res://Src/Assets/Sounds/hitHurt.wav" id="24_7mcud"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u420x"]
 shader = ExtResource("5_uj3y3")
@@ -31,6 +35,10 @@ shader_parameter/width = 0.7
 shader_parameter/fade = 0.7
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3t5hq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ev1ff"]
+shader = ExtResource("9_w1dus")
+shader_parameter/hdr_thres = null
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dehkb"]
 shader = ExtResource("7_g7wu6")
@@ -151,6 +159,7 @@ text = "100"
 script = ExtResource("8_uhi60")
 
 [node name="ColorRect" type="ColorRect" parent="HUD/HUD"]
+visible = false
 z_index = 1
 material = SubResource("ShaderMaterial_u420x")
 layout_mode = 1
@@ -199,14 +208,27 @@ offset_left = 944.0
 offset_bottom = -614.0
 mouse_filter = 2
 
+[node name="ColorRect2" type="ColorRect" parent="HUD/HUD"]
+visible = false
+material = SubResource("ShaderMaterial_ev1ff")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [node name="PauseMenu" parent="HUD" instance=ExtResource("9_x6t62")]
 process_mode = 3
 visible = false
 
-[node name="Movement" type="Node" parent="." node_paths=PackedStringArray("player", "sprite")]
+[node name="Movement" type="Node" parent="." node_paths=PackedStringArray("player", "jumpSound", "sprite")]
 script = ExtResource("1_hgxmi")
 player = NodePath("..")
+jumpSound = NodePath("../Sounds/Jump")
 max_jump_height = 250.0
+max_jump_amount = 2
 sprint_acceleration = 10000
 sprite = NodePath("../PlayerSprite")
 
@@ -241,10 +263,11 @@ shape = SubResource("RectangleShape2D_gkgaf")
 position = Vector2(1057, -10.5)
 shape = SubResource("RectangleShape2D_eqfar")
 
-[node name="Health" parent="." node_paths=PackedStringArray("healthBar", "damageNumberOrigin", "healthLab") instance=ExtResource("6_k0rty")]
+[node name="Health" parent="." node_paths=PackedStringArray("healthBar", "damageNumberOrigin", "healthLab", "hurtSound") instance=ExtResource("6_k0rty")]
 healthBar = NodePath("../HUD/HUD/HealthBar")
 damageNumberOrigin = NodePath("../DamageNumbersOrigin")
 healthLab = NodePath("../HUD/HUD/HealthLabel")
+hurtSound = NodePath("../Sounds/HurtHit")
 
 [node name="DamageNumbersOrigin" type="Node2D" parent="."]
 position = Vector2(22, -14)
@@ -270,10 +293,14 @@ rotation = 1.5708
 scale = Vector2(0.0673828, 0.0673828)
 texture = ExtResource("10_gcncu")
 
-[node name="RocketJump" parent="AbilityManager/AimRotator/AimPoint" node_paths=PackedStringArray("player", "playerHealthNode") instance=ExtResource("18_y1cfv")]
+[node name="RocketJump" parent="AbilityManager/AimRotator/AimPoint" node_paths=PackedStringArray("player", "playerHealthNode", "explosionSound") instance=ExtResource("18_y1cfv")]
 position = Vector2(283, 0)
 player = NodePath("../../../..")
 playerHealthNode = NodePath("../../../../Health")
+explosionSound = NodePath("../../../../Sounds/Explosion")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="AbilityManager/AimRotator/AimPoint/RocketJump"]
+remote_path = NodePath("../../../../../Sounds/Explosion")
 
 [node name="EnergyModule" type="Node" parent="." node_paths=PackedStringArray("energyBar", "regenTimer", "energyLabel")]
 script = ExtResource("16_1jukj")
@@ -288,6 +315,22 @@ one_shot = true
 [node name="OverchargedDuration" type="Timer" parent="."]
 wait_time = 6.0
 one_shot = true
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Jump" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("22_36u6v")
+volume_db = -15.0
+bus = &"SoundEffects"
+
+[node name="Explosion" type="AudioStreamPlayer2D" parent="Sounds"]
+position = Vector2(410, 0)
+stream = ExtResource("23_q0hfv")
+
+[node name="HurtHit" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("24_7mcud")
+
+[node name="LaserSound" type="AudioStreamPlayer" parent="Sounds"]
 
 [connection signal="body_entered" from="CameraTarget/Camera2D/Area2D" to="CameraTarget/Camera2D" method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="CameraTarget/Camera2D/Area2D" to="CameraTarget/Camera2D" method="_on_area_2d_area_exited"]

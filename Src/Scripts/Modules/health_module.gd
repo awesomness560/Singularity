@@ -9,6 +9,7 @@ signal dead
 @export var healthBar : HealthBar
 @export var damageNumberOrigin : Node2D ##A Node2d containing the position of where the damage numbers should spawn (PLEASE SET)
 @export var healthLab : ScoreLabel ##The health label
+@export var hurtSound : AudioStreamPlayer
 var health : float #The current health of the object
 
 func _ready():
@@ -27,6 +28,9 @@ func _ready():
 func lowerHealth(damage : float, isCrit : bool = false):
 	if !isInvulnerable:
 		health -= damage #Reduces current health by specfied amount
+		if hurtSound:
+			hurtSound.play()
+		
 		setHealth(health)
 		if damageNumberOrigin:
 			if isCrit:

@@ -8,6 +8,9 @@ signal hit_ground()
 
 @export var player : CharacterBody2D
 
+@export_group("Sound References")
+@export var jumpSound : AudioStreamPlayer
+
 @export_group("Input Maps")
 # Set these to the name of your action (in the Input Map)
 ## Name of input action to move left.
@@ -271,6 +274,7 @@ func is_feet_on_ground():
 
 ## Perform a ground jump, or a double jump if the character is in the air.
 func jump():
+	jumpSound.play()
 	if can_double_jump():
 		double_jump()
 	else:
