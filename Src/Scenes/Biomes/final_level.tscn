@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://durc3ijdnbbnc"]
+[gd_scene load_steps=14 format=3 uid="uid://durc3ijdnbbnc"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Other/final_level.gd" id="1_pbhev"]
 [ext_resource type="Shader" path="res://Src/Assets/Shaders/hyperSpace.gdshader" id="1_war8u"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b0cm8016fqn3r" path="res://Src/Scenes/Enemies/Sek'yi/Sek'yi.tscn" id="3_pdwro"]
 [ext_resource type="Theme" uid="uid://boq2f86ty0hpo" path="res://Src/Assets/Other/main_theme.tres" id="5_rsjph"]
 [ext_resource type="AudioStream" uid="uid://ibo1xyxe70gg" path="res://Src/Assets/Sounds/bang-03-clean-89273.mp3" id="6_4et02"]
+[ext_resource type="AudioStream" uid="uid://2wdvakx0e43a" path="res://Src/Assets/Sounds/to-the-death-159171.mp3" id="7_q3n4f"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dak21"]
 shader = ExtResource("1_war8u")
@@ -313,6 +314,7 @@ color = Color(0, 0, 0, 1)
 
 [node name="Kill" type="Label" parent="CanvasLayer/Control"]
 visible = false
+layout_mode = 0
 offset_left = 10.0
 offset_right = 407.0
 offset_bottom = 269.0
@@ -323,6 +325,7 @@ text = "Kill."
 
 [node name="Them" type="Label" parent="CanvasLayer/Control"]
 visible = false
+layout_mode = 0
 offset_left = 437.0
 offset_top = 1.0
 offset_right = 1132.0
@@ -334,6 +337,7 @@ text = "Them."
 
 [node name="All" type="Label" parent="CanvasLayer/Control"]
 visible = false
+layout_mode = 0
 offset_left = 391.0
 offset_top = 308.0
 offset_right = 1086.0
@@ -359,3 +363,7 @@ bus = &"SoundEffects"
 libraries = {
 "": SubResource("AnimationLibrary_troqw")
 }
+
+[node name="Musoic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_q3n4f")
+autoplay = true
