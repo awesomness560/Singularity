@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://c6jf1kb5bfh54"]
+[gd_scene load_steps=33 format=3 uid="uid://c6jf1kb5bfh54"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Player/player_movement.gd" id="1_hgxmi"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/player.gd" id="1_pce26"]
@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://jjyga60mn7wj" path="res://Src/Scenes/Abilities/Laser.tscn" id="9_g3idi"]
 [ext_resource type="Texture2D" uid="uid://15d4enbdexwl" path="res://Src/Assets/Other/arrow.png" id="10_gcncu"]
 [ext_resource type="Script" path="res://Src/Scripts/Player/energy_module.gd" id="16_1jukj"]
+[ext_resource type="PackedScene" uid="uid://cgfx0607pn4mt" path="res://Src/Scenes/Abilities/rocket_jump.tscn" id="18_y1cfv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3t5hq"]
 
@@ -245,6 +246,10 @@ position = Vector2(40, 0)
 rotation = 1.5708
 scale = Vector2(0.0673828, 0.0673828)
 texture = ExtResource("10_gcncu")
+
+[node name="RocketJump" parent="AbilityManager/AimRotator/AimPoint" node_paths=PackedStringArray("player") instance=ExtResource("18_y1cfv")]
+position = Vector2(283, 0)
+player = NodePath("../../../..")
 
 [node name="EnergyModule" type="Node" parent="." node_paths=PackedStringArray("energyBar", "regenTimer", "energyLabel")]
 script = ExtResource("16_1jukj")
