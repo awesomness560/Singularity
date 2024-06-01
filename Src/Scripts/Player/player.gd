@@ -101,5 +101,6 @@ func changeMaxHealth(newMax : float):
 	
 	healthBar.setNewHealth(newHealth, newMax)
 	healthModule.setHealth(newHealth)
+	healthModule.maxHealth = newMax
 	print(str(newHealth) + "/" + str(newMax))
 	

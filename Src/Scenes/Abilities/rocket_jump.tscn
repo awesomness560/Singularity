@@ -1,15 +1,40 @@
-[gd_scene load_steps=4 format=3 uid="uid://cgfx0607pn4mt"]
+[gd_scene load_steps=8 format=3 uid="uid://cgfx0607pn4mt"]
 
 [ext_resource type="Script" path="res://Src/Scripts/Abilities/rocket_jump.gd" id="1_1dm21"]
 [ext_resource type="Script" path="res://Src/Scripts/Modules/damager.gd" id="2_oklr4"]
+[ext_resource type="Texture2D" uid="uid://c1g0egrfwngkf" path="res://Src/Assets/Particles/PNG (Transparent)/fire_01.png" id="3_5gp3t"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j7gqg"]
 radius = 251.454
 
-[node name="RocketJump" type="Node2D" node_paths=PackedStringArray("damageModule", "blastArea")]
+[sub_resource type="Gradient" id="Gradient_rq8x4"]
+offsets = PackedFloat32Array(0, 0.655738, 1)
+colors = PackedColorArray(1, 0, 0, 1, 1, 0.807843, 0, 1, 1, 0.807843, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_luxhx"]
+gradient = SubResource("Gradient_rq8x4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_00p7q"]
+particle_flag_disable_z = true
+angle_max = 360.0
+spread = 180.0
+initial_velocity_min = 775.28
+initial_velocity_max = 775.28
+angular_velocity_min = 404.49
+angular_velocity_max = 404.49
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 13.48
+radial_accel_max = 26.96
+scale_min = 0.2
+scale_max = 0.4
+color_ramp = SubResource("GradientTexture1D_luxhx")
+
+[node name="RocketJump" type="Node2D" node_paths=PackedStringArray("damageModule", "selfDamageModule", "blastArea", "explosionParticles")]
 script = ExtResource("1_1dm21")
-damageModule = NodePath("Damager")
+damageModule = NodePath("DamagerToEnemies")
+selfDamageModule = NodePath("DamagerToSelf")
 blastArea = NodePath("Area2D")
+explosionParticles = NodePath("ExplosionParticles")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
@@ -18,8 +43,21 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_j7gqg")
 
-[node name="Damager" type="Node" parent="."]
+[node name="DamagerToEnemies" type="Node" parent="."]
 script = ExtResource("2_oklr4")
 critMultiplier = 3.0
+
+[node name="ExplosionParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 80
+process_material = SubResource("ParticleProcessMaterial_00p7q")
+texture = ExtResource("3_5gp3t")
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+
+[node name="DamagerToSelf" type="Node" parent="."]
+script = ExtResource("2_oklr4")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

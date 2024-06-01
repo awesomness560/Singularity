@@ -7,7 +7,8 @@ var fontColor : Color
 func _ready():
 	fontColor = labelSettings.font_color
 
-func displayNumber(value : int, position : Vector2, isCritical : bool = false):
+func displayNumber(value, position : Vector2, isCritical : bool = false):
+	value = roundi(value)
 	var number = Label.new()
 	number.global_position = position
 	number.text = str(value)

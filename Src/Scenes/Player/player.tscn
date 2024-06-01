@@ -247,9 +247,10 @@ rotation = 1.5708
 scale = Vector2(0.0673828, 0.0673828)
 texture = ExtResource("10_gcncu")
 
-[node name="RocketJump" parent="AbilityManager/AimRotator/AimPoint" node_paths=PackedStringArray("player") instance=ExtResource("18_y1cfv")]
+[node name="RocketJump" parent="AbilityManager/AimRotator/AimPoint" node_paths=PackedStringArray("player", "playerHealthNode") instance=ExtResource("18_y1cfv")]
 position = Vector2(283, 0)
 player = NodePath("../../../..")
+playerHealthNode = NodePath("../../../../Health")
 
 [node name="EnergyModule" type="Node" parent="." node_paths=PackedStringArray("energyBar", "regenTimer", "energyLabel")]
 script = ExtResource("16_1jukj")
