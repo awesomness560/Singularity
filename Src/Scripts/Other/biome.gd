@@ -4,6 +4,7 @@ class_name Biome
 @export var startingMarker : Node2D ##A node indicating where the floor of the biome starts
 @export var endingMarker : Node2D ##A node indicating where the floor of the biome ends
 @export var animatedSprite : AnimatedSprite2D
+@export var transitionAnimation : AnimationPlayer
 
 func config(marker : Node2D): ##Pass in the ending marker of the previous biome to configure
 	#In here we set the position equal to the ending marker position
@@ -17,4 +18,7 @@ func config(marker : Node2D): ##Pass in the ending marker of the previous biome 
 
 func _on_portal_area_body_entered(body):
 	if body is Player:
+		transitionAnimation.play("trans")
+		await transitionAnimation.animation_finished
+		
 		Signal_bus.reachedPortal.emit()
